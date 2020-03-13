@@ -1,6 +1,8 @@
 drop table if exists derived.admissions;
 create table derived.admissions as 
 select 
+    uid,
+    ingested_at,
 
 	case when 	"Abdomen"	='blank' then null else	"Abdomen"	end as 	"Abdomen",
 	case when 	"Activity"	='blank' then null else	"Activity"	end as 	"Activity",
