@@ -1,4 +1,4 @@
-drop table if exists derived.admissions;
+drop table if exists derived.admissions cascade;
 create table derived.admissions as 
 select 
     uid,

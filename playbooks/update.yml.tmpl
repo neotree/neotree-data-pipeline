@@ -1,0 +1,30 @@
+:targets:
+  - :name: "NeoTree Database"
+    :type: postgres
+    :host: {{.host}}
+    :database: {{.database}}
+    :port: {{.port}}
+    :username: {{.username}}
+    :password: {{.password}}
+    :ssl: false # SSL disabled by default
+:steps:
+  - :name: Refresh materialized views
+    :queries:
+      - :name: Refresh materialized views
+        :file: ../sql/update/1-3-refresh-initial-views.sql
+  - :name: Admissions fix nulls and types
+    :queries:
+      - :name: Admissions fix nulls and types
+        :file: ../sql/common/4-admissions-fix-nulls-and-types.sql
+  - :name: Admissions manually fix records
+    :queries:
+      - :name: Manually fix admissions records
+        :file: ../sql/common/5-admissions-manually-fix-records.sql
+  - :name: Discharges fix nulls and types
+    :queries:
+      - :name: Discharges fix nulls and types
+        :file: ../sql/common/4-discharges-fix-nulls-and-types.sql
+  - :name: Discharges manually fix records
+    :queries:
+      - :name: Manually fix admissions records
+        :file: ../sql/common/5-discharges-manually-fix-records.sql
