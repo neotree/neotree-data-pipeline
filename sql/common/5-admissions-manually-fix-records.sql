@@ -7,4 +7,4 @@
 -- WHERE
 -- ...
 
-select 1;
+select 1; -- dummy query so running this doens't break sql-runner
