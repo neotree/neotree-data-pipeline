@@ -1,4 +1,4 @@
-drop materialized view if exists derived.joined_admissions_and_discharges;
+drop materialized view if exists derived.joined_admissions_and_discharges cascade;
 create materialized view derived.joined_admissions_and_discharges as 
 select
 a.uid,

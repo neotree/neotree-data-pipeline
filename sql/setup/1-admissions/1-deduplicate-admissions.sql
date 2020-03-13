@@ -1,5 +1,5 @@
 -- First we create a view where we deduplicate the admissions
-drop materialized view if exists scratch.deduplicated_admissions;
+drop materialized view if exists scratch.deduplicated_admissions cascade;
 create materialized view scratch.deduplicated_admissions as 
 (
   with earliest_admissions as (

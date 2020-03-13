@@ -1,5 +1,5 @@
 -- First we create a view where we deduplicate the discharges
-drop materialized view if exists scratch.deduplicated_discharges;
+drop materialized view if exists scratch.deduplicated_discharges cascade;
 create materialized view scratch.deduplicated_discharges as 
 (
   with earliest_discharges as (

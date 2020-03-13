@@ -1,4 +1,4 @@
-drop materialized view if exists scratch.discharges_form_exploded;
+drop materialized view if exists scratch.discharges_form_exploded cascade;
 create materialized view scratch.discharges_form_exploded as
 select
     uid,

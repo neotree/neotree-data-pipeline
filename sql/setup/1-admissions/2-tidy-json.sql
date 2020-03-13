@@ -4,7 +4,7 @@
 -- (ii) For each entry in that array, picking out the `key` and making it a primary key in the resulting JSON
 -- (iii) For each entry in that array, picking out the `value` and making it the value in the resulting JSON
 -- Note that we end up building 3 JSONs rather than one because the json_build_object function only seems to support 50 key/value pairs
-drop materialized view if exists scratch.admissions_form_tidy_json;
+drop materialized view if exists scratch.admissions_form_tidy_json cascade;
 create materialized view scratch.admissions_form_tidy_json as (
     select
     uid,
