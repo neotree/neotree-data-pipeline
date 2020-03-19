@@ -1,1 +1,0 @@
-refresh materialized view derived.joined_admissions_and_discharges;
