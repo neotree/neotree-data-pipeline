@@ -8,22 +8,18 @@
     :password: {{.password}}
     :ssl: false # SSL disabled by default
 :steps:
-  - :name: Refresh materialized views
+  - :name: Deduplicate admissions
     :queries:
-      - :name: Refresh materialized views
-        :file: ../sql/update/1-2-refresh-initial-views.sql
-  - :name: Admissions fix nulls and types
+      - :name: Deduplicate admissions
+        :file: ../sql/setup/1-admissions/1-deduplicate-admissions.sql
+  - :name: Deduplicate discharges
     :queries:
-      - :name: Admissions fix nulls and types
-        :file: ../sql/common/4-admissions-fix-nulls-and-types.sql
+      - :name: Deduplicate discharges
+        :file: ../sql/setup/2-discharges/1-deduplicate-discharges.sql
   - :name: Admissions manually fix records
     :queries:
       - :name: Manually fix admissions records
         :file: ../sql/common/5-admissions-manually-fix-records.sql
-  - :name: Discharges fix nulls and types
-    :queries:
-      - :name: Discharges fix nulls and types
-        :file: ../sql/common/4-discharges-fix-nulls-and-types.sql
   - :name: Discharges manually fix records
     :queries:
       - :name: Manually fix admissions records
@@ -32,7 +28,7 @@
     :queries:
       - :name: Create joined materialized view
         :file: ../sql/setup/3-join/join-admissions-and-discharges.sql
-    - :name: Grant permissions on derived tables
+  - :name: Grant permissions on derived tables
     :queries:
       - :name: Create joined materialized view
         :file: ../sql/common/6-grant-usage-on-tables.sql
