@@ -27,24 +27,39 @@ def main():
                 "data"->'entries' as "entries"
             from scratch.deduplicated_admissions;
         '''
+
+    dis_query = '''
+        select 
+            uid,
+            ingested_at,
+            "data"->'entries' as "entries"
+        from scratch.deduplicated_discharges;
+    '''
+   
     admin_raw = rd.read_table(admin_query, conn)
+    dis_raw = rd.read_table(dis_query, conn)
 
     # Now let's fetch the list of properties recorded in that table
     print("2. Extracting keys")
-    newentrieslist = ekv.get_key_values(admin_raw)
+    admin_new_entries = ekv.get_key_values(admin_raw)
+    dis_new_entries = ekv.get_key_values(dis_raw)
 
     # Create the dataframe (df) where each property is pulled out into its own colum
     print("3. Creating the normalized dataframe")
-    df = pd.json_normalize(newentrieslist, max_level=2)
+    admin_df = pd.json_normalize(admin_new_entries, max_level=2)
+    dis_df = pd.json_normalize(dis_new_entries, max_level=2)
 
     # Add back the  ingested_at and session
     print("4. Merging records")
-    admissions = mdf.merge_df(admin_raw,df)
+    admissions = mdf.merge_df(admin_raw,admin_df)
+    discharges = mdf.merge_df(dis_raw,dis_df)
 
     # Now write the table back to the database
     print("5. Writing the output back to the database")
-    table_name = "new_admissions"
-    cpt.create_table(admissions,table_name)
+    admin_table_name = "new_admissions"
+    dis_table_name ='new_discharges'
+    cpt.create_table(admissions,admin_table_name)
+    cpt.create_table(discharges, dis_table_name)
 
     print("6. Script completed!")
 
