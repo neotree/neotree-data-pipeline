@@ -43,7 +43,8 @@ def main():
 
     # Now write the table back to the database
     print("5. Writing the output back to the database")
-    cpt.create_table(admissions)
+    table_name = "new_admissions"
+    cpt.create_table(admissions,table_name)
 
     print("6. Script completed!")
 
