@@ -60,7 +60,7 @@ def main():
         admin_df = pd.json_normalize(admin_new_entries, max_level=2)
         dis_df = pd.json_normalize(dis_new_entries, max_level=2)
     except:
-        print("An error occured normalized dataframes)
+        print("An error occured normalized dataframes")
     
     # Add back the  ingested_at and session
     print("4. Merging records")
