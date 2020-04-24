@@ -17,53 +17,70 @@ def main():
 
     # Connect to database
     print("1. Connecting to database")
-    conn = cn.database_connection()
+    try:
+        conn = cn.database_connection()
+    except:
+        print("A connection error occured")
 
-    # Read the raw admissions data into the admin_raw dataframe
-    admin_query = '''
+    # Read the raw admissions and discharge data into dataframes
+    print("2. Fetching raw data")
+    try:
+        admin_query = '''
+                select 
+                    uid,
+                    ingested_at,
+                    "data"->'entries' as "entries"
+                from scratch.deduplicated_admissions;
+            '''
+
+        dis_query = '''
             select 
                 uid,
                 ingested_at,
                 "data"->'entries' as "entries"
-            from scratch.deduplicated_admissions;
+            from scratch.deduplicated_discharges;
         '''
 
-    dis_query = '''
-        select 
-            uid,
-            ingested_at,
-            "data"->'entries' as "entries"
-        from scratch.deduplicated_discharges;
-    '''
-   
-    admin_raw = rd.read_table(admin_query, conn)
-    dis_raw = rd.read_table(dis_query, conn)
+        admin_raw = rd.read_table(admin_query, conn)
+        dis_raw = rd.read_table(dis_query, conn)
+    except:
+        print("An error occured fetching the data")
 
     # Now let's fetch the list of properties recorded in that table
-    print("2. Extracting keys")
-    admin_new_entries = ekv.get_key_values(admin_raw)
-    dis_new_entries = ekv.get_key_values(dis_raw)
+    print("3. Extracting keys")
+    try:
+        admin_new_entries = ekv.get_key_values(admin_raw)
+        dis_new_entries = ekv.get_key_values(dis_raw)
+    except:
+        print("An error occured extracting keys")
 
     # Create the dataframe (df) where each property is pulled out into its own colum
-    print("3. Creating the normalized dataframe")
-    admin_df = pd.json_normalize(admin_new_entries, max_level=2)
-    dis_df = pd.json_normalize(dis_new_entries, max_level=2)
-
+    print("4. Creating normalized dataframes")
+    try:
+        admin_df = pd.json_normalize(admin_new_entries, max_level=2)
+        dis_df = pd.json_normalize(dis_new_entries, max_level=2)
+    except:
+        print("An error occured normalized dataframes)
+    
     # Add back the  ingested_at and session
     print("4. Merging records")
-    admissions = mdf.merge_df(admin_raw,admin_df)
-    discharges = mdf.merge_df(dis_raw,dis_df)
+    try:
+        admissions = mdf.merge_df(admin_raw,admin_df)
+        discharges = mdf.merge_df(dis_raw,dis_df)
+    except:
+        print("An error occured merging records")
 
     # Now write the table back to the database
     print("5. Writing the output back to the database")
-    admin_table_name = "new_admissions"
-    dis_table_name ='new_discharges'
-    cpt.create_table(admissions,admin_table_name)
-    cpt.create_table(discharges, dis_table_name)
-
+    try:
+        admin_table_name = "new_admissions"
+        dis_table_name ='new_discharges'
+        cpt.create_table(admissions,admin_table_name)
+        cpt.create_table(discharges, dis_table_name)
+    except:
+        print("An error occured writing output back to the database")
+    
     print("6. Script completed!")
-
-
 
 if __name__ == "__main__":
     main()
