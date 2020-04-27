@@ -62,18 +62,28 @@ def main():
         dis_df.set_index('uid',inplace=True)
     except:
         print("An error occured normalized dataframes")
+
+    # Create join of admissions & discharges (left outter join)
+    print("5. Creating joined admissions and discharge table")
+    try:
+        # join admissions and discharges
+        join_admis_dis = admin_df.merge(dis_df, how='left',left_index=True, right_index=True,suffixes=('_admission','_discharge'))
+    except:
+        print("An error occured joining dataframes")
     
     # Now write the table back to the database
-    print("5. Writing the output back to the database")
+    print("6. Writing the output back to the database")
     try:
         admin_table_name = "new_admissions"
         dis_table_name ='new_discharges'
+        join_table_name = 'join_admissions_discharge'
         cpt.create_table(admin_df,admin_table_name)
         cpt.create_table(dis_df, dis_table_name)
+        cpt.create_table(join_admis_dis, join_table_name)
     except:
         print("An error occured writing output back to the database")
     
-    print("6. Script completed!")
+    print("7. Script completed!")
 
 if __name__ == "__main__":
     main()
