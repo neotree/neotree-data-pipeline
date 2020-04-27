@@ -6,6 +6,14 @@ The most complicated step in the data pipeline takes the unstructured JSON outpu
 
 This step in the data pipeline is written in Python.
 
+## Environment Setup
+Run the following to install python dependencies on virtual environment:
+
+```
+$ pip install -r requirements.txt
+```
+
+
 ## Pre-requisites
 
 Before the pipeline can be run you need to create a `database.ini` file in the `python` directory with the following template:
@@ -33,9 +41,10 @@ $ python create_reporting_table.py
 Starting process to create admissions table
 1. Connecting to database
 Connecting to the PostgreSQL database...
-2. Extracting keys
-3. Creating the normalized dataframe
-4. Merging records
-5. Writing the output back to the database
-6. Script completed!
+2. Fetching raw data
+3. Extracting keys
+4. Creating normalized dataframes
+5. Creating joined admissions and discharge table
+6. Writing the output back to the database
+7. Script completed!
 ```
