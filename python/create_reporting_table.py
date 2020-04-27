@@ -2,7 +2,6 @@
 import connect as cn
 import read_data as rd
 import extract_key_values as ekv
-import merge_df as mdf
 import create_postgres_table as cpt
 
 # Import libraries
@@ -58,25 +57,19 @@ def main():
     print("4. Creating normalized dataframes")
     try:
         admin_df = pd.json_normalize(admin_new_entries, max_level=2)
+        admin_df.set_index('uid',inplace=True)
         dis_df = pd.json_normalize(dis_new_entries, max_level=2)
+        dis_df.set_index('uid',inplace=True)
     except:
         print("An error occured normalized dataframes")
     
-    # Add back the  ingested_at and session
-    print("4. Merging records")
-    try:
-        admissions = mdf.merge_df(admin_raw,admin_df)
-        discharges = mdf.merge_df(dis_raw,dis_df)
-    except:
-        print("An error occured merging records")
-
     # Now write the table back to the database
     print("5. Writing the output back to the database")
     try:
         admin_table_name = "new_admissions"
         dis_table_name ='new_discharges'
-        cpt.create_table(admissions,admin_table_name)
-        cpt.create_table(discharges, dis_table_name)
+        cpt.create_table(admin_df,admin_table_name)
+        cpt.create_table(dis_df, dis_table_name)
     except:
         print("An error occured writing output back to the database")
     
