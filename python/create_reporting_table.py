@@ -97,7 +97,7 @@ def main():
         cpt.create_table(dis_df, dis_tbl_n)
         cpt.create_table(cnt_admreason_label, cnt_admreason_label_tbl_n)
         cpt.create_table(cnt_contcausedeath_label, cnt_contcausedeath_label_tbl_n)
-        cpt.create_table(join_adm_dis, jn_adm_dis_tbl_n)
+        cpt.create_table(jn_adm_dis, jn_adm_dis_tbl_n)
     except:
         print("An error occured writing output back to the database")
     
