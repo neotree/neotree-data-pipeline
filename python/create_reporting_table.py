@@ -87,8 +87,8 @@ def main():
     # Now write the table back to the database
     print("7. Writing the output back to the database")
     try:
-        adm_tbl_n = "admissions_new"
-        dis_tbl_n ='discharges_new'
+        adm_tbl_n = 'admissions'
+        dis_tbl_n ='discharges'
         cnt_admreason_label_tbl_n = 'count_admission_reason'
         cnt_contcausedeath_label_tbl_n = 'count_cont_death_causes'
         jn_adm_dis_tbl_n = 'joined_admissions_discharges'
