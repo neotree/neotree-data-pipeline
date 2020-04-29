@@ -71,8 +71,8 @@ def main():
         cnt_admreason_label = cnt_admreason_label.explode('AdmReason.label')
         
         # explode the contCauseDeath.label column (not setting uid as index)
-        cnt_contcausedeath_label = dis_df[['contCauseDeath.label']]
-        cnt_contcausedeath_label = cnt_contcausedeath_label.explode('contCauseDeath.label')
+        cnt_contcausedeath_label = dis_df[['ContCauseDeath.label']]
+        cnt_contcausedeath_label = cnt_contcausedeath_label.explode('ContCauseDeath.label')
     except:
         print("An error occured creating count dataframes")
 
