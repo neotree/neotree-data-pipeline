@@ -2,14 +2,27 @@
 
 This repo includes playbooks for the data pipeline that takes the raw data POSTed by the NeoTree app and turns it into a tidy table suitable for visualising in a Business Intelligence tool.
 
+## Overview
+
+The data pipeline is divided into three stages:
+
+1. Steps performed directly on the data in the database in SQL
+  - break out the admission and discharge data from the raw `sessions` table
+  - deduplciate the admission and discharge data
+2. A set of steps performed in Python that transform the entries in the admission and discharge data (in an unstructured JSON format) into a clean tabular format suitable for easy visualization
+3. A set of steps performed in SQL to manually apply any fixes to individual entries and join the admissions and discharges data
+
+Steps (1) and (3) are orchestrated using SQL-Runner. Step (2) is a Python script.
+
 ## Pre-requisites
 
 To run the data pipeline you need:
 
 * Credentials to access a database with NeoTree data
-* A local copy of [sql-runner](https://github.com/snowplow/sql-runner)
+* A local copy of [sql-runner](https://github.com/snowplow/sql-runner) to run steps (1) and (3) 
+* To create a `database.ini` file in the `python` directory, so that step (2) can run successfully
 
-## Setting up SQL-Runner
+### Setting up SQL-Runner
 
 On a Mac:
 
@@ -27,12 +40,40 @@ $ unzip sql_runner_0.8.0_linux_amd64.zip
 $ ./sql-runner -usage
 ```
 
-## Running the setup playbook
-
-The setup playbook sets up and runs the data pipeline, including creating all the required derived tables and views. This is necessary if e.g. you are setting up the data pipeline for the first time.
+### Creating the database.ini file
 
 ```
-$ sql-runner -playbook playbooks/setup.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=ENTER_PORT_HERE,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
+touch python/database.ini
+```
+
+Then in your favorite text editor insert the following contents into the `database.ini` file with your database credentials:
+
+```
+[postgresql]
+host=ENTER_DATABASE_HOST_HERE
+database=ENTER_DATABASE_NAME_HERE
+user=ENTER_USERNAME_HERE
+password=ENTER_PASSWORD_HERE
+```
+
+## Running the data pipeline
+
+To run the first step we use SQL-Runner to run the `dedupliate_admissions_and_discharges` playbook:
+
+```
+$ sql-runner -playbook playbooks/deduplicate_admissions_and_discharges.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
+```
+
+Then we run the second step in Python
+
+```
+$ python python/create_reporting_table.py
+```
+
+Lastly we run the `fix_data_and_join_admissions_and_discharges` playbook:
+
+```
+$ sql-runner -playbook playbooks/deduplicate_admissions_and_discharges.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
 ```
 
 ## Running the update playbook
