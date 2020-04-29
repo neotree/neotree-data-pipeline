@@ -87,11 +87,11 @@ def main():
     # Now write the table back to the database
     print("7. Writing the output back to the database")
     try:
-        adm_tbl_n = "new_admissions"
-        dis_tbl_n ='new_discharges'
-        cnt_admreason_label_tbl_n = 'count_admreason_label'
-        cnt_contcausedeath_label_tbl_n = 'count_contcausedeath_label'
-        jn_adm_dis_tbl_n = 'join_admissions_discharges'
+        adm_tbl_n = "admissions_new"
+        dis_tbl_n ='discharges_new'
+        cnt_admreason_label_tbl_n = 'count_admission_reason'
+        cnt_contcausedeath_label_tbl_n = 'count_cont_death_causes'
+        jn_adm_dis_tbl_n = 'joined_admissions_discharges'
         
         cpt.create_table(adm_df,adm_tbl_n)
         cpt.create_table(dis_df, dis_tbl_n)
