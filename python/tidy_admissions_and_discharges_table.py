@@ -12,7 +12,7 @@ import json
 import pytest
 
 def main():
-    print("Starting process to create admissions table")
+    print("Starting process to create tidied admissions and discharges table (derived.admissions and derived.discharges)")
 
     # Connect to database
     print("1. Connecting to database")
@@ -64,7 +64,7 @@ def main():
         print("An error occured normalized dataframes")
 
     # Now write the cleaned up admission and discharge tables back to the database
-    print("5. Writing the tidied admission and discharge data back to the database")
+    print("5. Writing the tidied admission and discharge back to the database")
     try:
         adm_tbl_n = 'admissions'
         dis_tbl_n ='discharges'

@@ -123,12 +123,3 @@ This step is run as follows:
 ```
 $ sql-runner -playbook playbooks/deduplicate_admissions_and_discharges.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
 ```
-
-
-## Modifying the data as part of data cleaning
-
-Sometimes it is necessary to update lines of data in the database if this has been found to have been inacurately entered in the NeoTree app.
-
-Please NEVER update any lines of the raw data in Postgres. Instead, add UPDATE statements to the `/sql/common/5-admissions-manually-fix-records.sql` file (to fix admissions records), or the `[sql/common/5-discharges-manually-fix-records.sql` (to fix the discharge records).
-
-Once the files have been updated please rerun the `update` playbook and commit the updated file to Github.
