@@ -58,31 +58,72 @@ password=ENTER_PASSWORD_HERE
 
 ## Running the data pipeline
 
-To run the first step we use SQL-Runner to run the `dedupliate_admissions_and_discharges` playbook:
+### Step 1: separating out the admissions and discharges records, and deduplicating them
+
+The first step in the data pipeline does the following:
+
+* Fetches the admissions and discharges records from the raw jsonsessions table
+* Deduplicates them
+* Write them out to two separate tables (`scratch.deduplicated_admissions` and `scratch.deduplicated_discharges`).
+
+This process is written in SQL. It is run using SQL-Runner as follows:
 
 ```
 $ sql-runner -playbook playbooks/deduplicate_admissions_and_discharges.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
 ```
 
-Then we run the second step in Python
+It could alternatively be run directly using `psql`.
+
+### Step 2: transforming the JSON for admissions and discharges so that we have two tables that are easy to query
+
+This step takes the admission and discharge tables that have been deduplicated, but contain all the interesting data in a hard-to-work-with JSON, and transform the JSON into a tidy set of columns.
+
+This part of the data pipeline is written in Python and run as follows:
 
 ```
-$ python python/create_reporting_table.py
+$ python python/tidy_admissions_and_discharges_table.py
 ```
 
-Lastly we run the `fix_data_and_join_admissions_and_discharges` playbook:
+The resulting tables created in Postgres are `derived.admissions` and `derived.discharges`.
+
+### Step 3: fix up the admissions and discharges data
+
+Sometimes it is necessary to manually edit the data in the database because of errors made when the data was entered into the tablet. For example, the UID for a discharge record might have an innaccurate character. Because of this character it is not successfully joined onto the corresponding admission record. (The join uses the UID.)
+
+Any updates to the data are made to the `derived.admissions` or `derived.discharges` tables. Updates should be written as `UPDATE` statements that are added to the [sql/common/5-admissions-manually-fix-records.sql](/neotree/neotree-data-pipeline/blob/master/sql/common/5-admissions-manually-fix-records.sql) or [sql/common/5-discharges-manually-fix-records.sqlcommon/5-ad](/neotree/neotree-data-pipeline/blob/master/sql/common/5-discharges-manually-fix-records.sql) files. These are therefore run each time the data pipeline is run on the derived tables: **we do not ever modify the raw data output from the app**.
+
+This step can be run with SQL-Runner as follows:
+
+```
+$ sql-runner -playbook playbooks/fix_data.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
+```
+
+It can alternatively be run using `psql`.
+
+### Step 4: joining the admissions and discharges table and creating other derived views
+
+This step in the pipeline joins the admissions and discharges table. It also creates other tables that are required for reporting.
+
+This step is written in Python and run as follows:
+
+```
+$ python python/create_joined_and_other_derived_tables.py
+```
+
+It creates the following tables:
+
+* `derived.joined_admissions_discharges`
+* `derived.count_admission_reason`
+* `derived.count_cont_death_causes`
+
+### Step 5: granting permissions on the newly created tables
+
+This step is run as follows:
 
 ```
 $ sql-runner -playbook playbooks/deduplicate_admissions_and_discharges.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=5432,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
 ```
 
-## Running the update playbook
-
-The update playbook updates the tables and views in-place. This is marginally faster than running the setup playbook
-
-```
-$ sql-runner -playbook playbooks/update.yml.tmpl -var host=ENTER_DATABASE_HOST_HERE,username=ENTER_USERNAME_HERE,port=ENTER_PORT_HERE,database=ENTER_DATABASE_NAME_HERE,password=ENTER_PASSWORD_HERE
-```
 
 ## Modifying the data as part of data cleaning
 
