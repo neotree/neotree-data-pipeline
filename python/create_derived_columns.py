@@ -1,3 +1,5 @@
+import pandas as pd
+
 def create_columns(jn_adm_dis):
     # All derived features added to join adm dis table.
     # Create derived features based on DAX power bi expressions:
@@ -9,7 +11,7 @@ def create_columns(jn_adm_dis):
     # watch out for time zone (tz) issues if you change code (ref: https://github.com/pandas-dev/pandas/issues/25571)
     jn_adm_dis['DateTimeAdmission.value'] =  pd.to_datetime(jn_adm_dis['DateTimeAdmission.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
     jn_adm_dis['DateAdmission.value'] = jn_adm_dis['DateTimeAdmission.value'].dt.date
-    print("1. ", jn_adm_dis['DateAdmission.value'])
+    #print("1. ", jn_adm_dis['DateAdmission.value'])
 
 
     # if you want to show values from ReferredFrom and ReferredFrom2 - not currently done
@@ -20,8 +22,8 @@ def create_columns(jn_adm_dis):
     # Create AdmissionSource = IF(ISBLANK(Admissions[AdmittedFrom]); "External Referral"; Admissions[AdmittedFrom])
     jn_adm_dis['AdmittedFrom.value'].fillna("ER", inplace=True)
     jn_adm_dis['AdmittedFrom.label'].fillna("External Referral", inplace=True)
-    print("2. ",jn_adm_dis['AdmittedFrom.value'])
-    print("3. ",jn_adm_dis['AdmittedFrom.label'])
+    #print("2. ",jn_adm_dis['AdmittedFrom.value'])
+    #print("3. ",jn_adm_dis['AdmittedFrom.label'])
 
     # Create EXTERNALSOURCE = IF(ISBLANK(Admissions[AdmittedFrom]); 
     # if(isblank(Admissions[ReferredFrom]); Admissions[ReferredFrom2]; Admissions[ReferredFrom]))
@@ -29,8 +31,8 @@ def create_columns(jn_adm_dis):
     # float("nan") used to make sure nan's are set not a string "nan"
     jn_adm_dis['EXTERNALSOURCE.label'] = np.where(jn_adm_dis['AdmittedFrom.label'].isnull(),jn_adm_dis['AdmittedFrom.label'].mask(pd.isnull, (jn_adm_dis['ReferredFrom.label'].mask(pd.isnull,jn_adm_dis['ReferredFrom2.label']))),float('nan'))
     jn_adm_dis['EXTERNALSOURCE.value'] = np.where(jn_adm_dis['AdmittedFrom.value'].isnull(),jn_adm_dis['AdmittedFrom.value'].mask(pd.isnull, (jn_adm_dis['ReferredFrom.value'].mask(pd.isnull,jn_adm_dis['ReferredFrom2.value']))),float('nan'))
-    print("4. ",jn_adm_dis['EXTERNALSOURCE.label'])
-    print("5. ",jn_adm_dis['EXTERNALSOURCE.value'])
+    #print("4. ",jn_adm_dis['EXTERNALSOURCE.label'])
+    #print("5. ",jn_adm_dis['EXTERNALSOURCE.value'])
 
     # Create ExtSourceOrder = RELATED(ExternalOrder[Order]) - see if this can be done in tool
 
@@ -47,7 +49,7 @@ def create_columns(jn_adm_dis):
     jn_adm_dis.loc[jn_adm_dis['Gestation.value'] < 34 , 'GestGroup.value'] = "32-34 wks"
     jn_adm_dis.loc[jn_adm_dis['Gestation.value'] < 32 , 'GestGroup.value'] = "28-32 wks"
     jn_adm_dis.loc[jn_adm_dis['Gestation.value'] < 28 , 'GestGroup.value'] = "<28"
-    print("6. ", jn_adm_dis['GestGroup.value'])
+    #print("6. ", jn_adm_dis['GestGroup.value'])
 
 
     # Create GestOrder = RELATED(Gestorder[Order]) - see if this can be done in tool
@@ -64,7 +66,7 @@ def create_columns(jn_adm_dis):
     jn_adm_dis.loc[jn_adm_dis['BW.value'] < 2500 , 'BWGroup.value'] = "LBW"
     jn_adm_dis.loc[jn_adm_dis['BW.value'] < 1500 , 'BWGroup.value'] = "VLBW"
     jn_adm_dis.loc[jn_adm_dis['BW.value'] < 1000 , 'BWGroup.value'] = "ELBW"
-    print("7. ", jn_adm_dis['BWGroup.value'])
+    #print("7. ", jn_adm_dis['BWGroup.value'])
 
     # Create BWOrder = RELATED(BWOrder[Order]) - see if this can be done in tool
 
@@ -79,7 +81,7 @@ def create_columns(jn_adm_dis):
     jn_adm_dis.loc[jn_adm_dis['AW.value'] < 2500 , 'AWGroup.value'] = "1500-2500g"
     jn_adm_dis.loc[jn_adm_dis['AW.value'] < 1500 , 'AWGroup.value'] = "1000-1500g"
     jn_adm_dis.loc[jn_adm_dis['AW.value'] < 1000 , 'AWGroup.value'] = "<1000g"
-    print("8. ", jn_adm_dis['AWGroup.value'])
+    #print("8. ", jn_adm_dis['AWGroup.value'])
 
     # Create AWOrder = RELATED(AWOrder[Order]) - see if this can be done in tool
 
@@ -112,7 +114,7 @@ def create_columns(jn_adm_dis):
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] < 32.5 , 'TempGroup.value'] = "31.5-32.5"
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] < 31.5 , 'TempGroup.value'] = "30.5-31.5"
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] < 30.5 , 'TempGroup.value'] = "<30.5"
-    print("9. ", jn_adm_dis['TempGroup.value'])
+    #print("9. ", jn_adm_dis['TempGroup.value'])
 
     # Create TempThermia = IF(Admissions[Temperature]<36.5; "Hypothermia"; 
     # IF(Admissions[Temperature]<37.5; "Normothermia"; "Hyperthermia"))
@@ -121,22 +123,22 @@ def create_columns(jn_adm_dis):
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] >= 37.5 , 'TempThermia.value'] = "Hyperthermia"
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] < 37.5 , 'TempThermia.value'] = "Normothermia"
     jn_adm_dis.loc[jn_adm_dis['Temperature.value'] < 36.5 , 'TempThermia.value'] = "Hypothermia"
-    print("10. ", jn_adm_dis['TempThermia.value'])
+    #print("10. ", jn_adm_dis['TempThermia.value'])
 
     # Create ThermiaOrder = RELATED(ThermiaOrder[Order]) - see if this can be done in tool
 
     # Create <28wks/1kg = AND(Admissions[bw-2]<> Blank(); OR(Admissions[bw-2]<1000; Admissions[Gestation]<28))
 
     jn_adm_dis['<28wks/1kg.value'] = ((jn_adm_dis['BW.value'] > 0) & ((jn_adm_dis['BW.value'] < 1000) | (jn_adm_dis['Gestation.value'] < 28)))
-    print("11. ", jn_adm_dis['<28wks/1kg.value'])
+    #print("11. ", jn_adm_dis['<28wks/1kg.value'])
 
     # Create LBWBinary = AND(Admissions[bw-2]<> Blank();(Admissions[bw-2]<2500))
 
     jn_adm_dis['LBWBinary'] = ((jn_adm_dis['BW.value'] > 0) & (jn_adm_dis['BW.value'] < 2500))
-    print("12. ", jn_adm_dis['LBWBinary'])
+    #print("12. ", jn_adm_dis['LBWBinary'])
 
     # Create YearMonth = FORMAT(Admissions[DateTimeAdmission];"yy-mm")
     jn_adm_dis['YearMonth.value'] = jn_adm_dis['DateTimeAdmission.value'].apply(lambda x: pd.Timestamp(x).strftime('%y-%m'))
-    print("13. ", jn_adm_dis['YearMonth.value'])
+    #print("13. ", jn_adm_dis['YearMonth.value'])
     
     return jn_adm_dis

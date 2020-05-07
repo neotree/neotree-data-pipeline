@@ -3,6 +3,7 @@ import connect as cn
 import read_data as rd
 import extract_key_values as ekv
 import create_postgres_table as cpt
+import create_derived_columns as cdc
 
 # Import libraries
 import pandas as pd
@@ -62,6 +63,9 @@ def main():
         jn_adm_dis = adm_df.merge(dis_df, how='left',left_index=True, right_index=True,suffixes=('_admission','_discharge'))
     except:
         print("An error occured joining dataframes")
+        
+    # Extend join table with derived columns based on power bi logic
+    jn_adm_dis_ext = cdc.create_columns(jn_adm_dis)
     
     # Now write the table back to the database
     print("5. Writing the output back to the database")
@@ -72,7 +76,7 @@ def main():
         
         cpt.create_table(cnt_admreason_label, cnt_admreason_label_tbl_n)
         cpt.create_table(cnt_contcausedeath_label, cnt_contcausedeath_label_tbl_n)
-        cpt.create_table(jn_adm_dis, jn_adm_dis_tbl_n)
+        cpt.create_table(jn_adm_dis_ext, jn_adm_dis_tbl_n)
     except:
         print("An error occured writing output back to the database")
     
