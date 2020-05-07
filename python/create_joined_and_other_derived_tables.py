@@ -1,18 +1,16 @@
-# Import created modules (need to be stored in the same directory as notebook)
-import connect as cn
-import read_data as rd
-import extract_key_values as ekv
-import create_postgres_table as cpt
-import create_derived_columns as cdc
-
-# Import libraries
-import pandas as pd
-import sqlalchemy
-import numpy as np
-import json
-import pytest
-
 def main():
+    # Import created modules (need to be stored in the same directory as notebook)
+    import connect as cn
+    import read_data as rd
+    import extract_key_values as ekv
+    import create_postgres_table as cpt
+    import create_derived_columns as cdc
+
+    # Import libraries
+    import pandas as pd
+    import sqlalchemy
+    import numpy as np
+    import json
     print("Starting script to create joined and other derived tables")
 
     # Connect to database
@@ -48,11 +46,11 @@ def main():
     try:
         # explode the AdmReason.label column (not setting uid as index)
         cnt_admreason_label = adm_df[['AdmReason.label']]
-        cnt_admreason_label_tbl = cnt_admreason_label.explode('AdmReason.label')
+        cnt_admreason_label_exp = cnt_admreason_label.explode('AdmReason.label')
         
         # explode the contCauseDeath.label column (not setting uid as index)
         cnt_contcausedeath_label = dis_df[['ContCauseDeath.label']]
-        cnt_contcausedeath_label_tbl = cnt_contcausedeath_label.explode('ContCauseDeath.label')
+        cnt_contcausedeath_label_exp = cnt_contcausedeath_label.explode('ContCauseDeath.label')
     except:
         print("An error occured creating count dataframes")
 
@@ -66,7 +64,7 @@ def main():
     except:
         print("An error occured creating joined dataframe")
         
-  
+        
     # Now write the table back to the database
     print("5. Writing the output back to the database")
     try:
@@ -74,13 +72,13 @@ def main():
         cnt_contcausedeath_label_tbl_n = 'count_cont_death_causes'
         jn_adm_dis_tbl_n = 'joined_admissions_discharges'
         
-        cpt.create_table(cnt_admreason_label_tbl, cnt_admreason_label_tbl_n)
-        cpt.create_table(cnt_contcausedeath_label_tbl, cnt_contcausedeath_label_tbl_n)
+        cpt.create_table(cnt_admreason_label_exp, cnt_admreason_label_tbl_n)
+        cpt.create_table(cnt_contcausedeath_label_exp, cnt_contcausedeath_label_tbl_n)
         cpt.create_table(jn_adm_dis_ext, jn_adm_dis_tbl_n)
     except:
         print("An error occured writing output back to the database")
-    
-    print("6. Script completed!")
 
+    print("6. Script completed!")
+   
 if __name__ == "__main__":
     main()
