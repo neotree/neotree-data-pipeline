@@ -57,16 +57,16 @@ def main():
         print("An error occured creating count dataframes")
 
     # Create join of admissions & discharges (left outter join)
-    print("4. Creating joined admissions and discharge table")
+    print("4. Creating joined admissions and discharge table and derived columns")
     try:
         # join admissions and discharges
         jn_adm_dis = adm_df.merge(dis_df, how='left',left_index=True, right_index=True,suffixes=('_admission','_discharge'))
+        # Extend join table with derived columns based on power bi logic
+        jn_adm_dis_ext = cdc.create_columns(jn_adm_dis)    
     except:
-        print("An error occured joining dataframes")
+        print("An error occured creating joined dataframe")
         
-    # Extend join table with derived columns based on power bi logic
-    jn_adm_dis_ext = cdc.create_columns(jn_adm_dis)
-    
+  
     # Now write the table back to the database
     print("5. Writing the output back to the database")
     try:
