@@ -1,20 +1,20 @@
-from common_files.test_sql_functions import inject_sql 
+from common_files.sql_functions import inject_sql 
 import tidy_admissions_discharges_and_create_derived_tables as tt
 import create_joined_table as cj
 
 def main():
-
+    cwd = os.getcwd()
     print("Step 1: deduplicate admissions and discharges ")
     try:
-        file_name = "step_1_duduplicate_files/1-deduplicate-admissions.sql"
+        file_name = (cwd + "step_1_deduplicate_files/1-deduplicate-admissions.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
-        inject_sql(sql_script,file_name)
+        inject_sql(sql_script,"deduplicate-admissions")
 
-        file_name = "step_1_duduplicate_files/1-deduplicate-discharges.sql"
+        file_name = (cwd + "step_1_duduplicate_files/1-deduplicate-discharges.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
-        inject_sql(sql_script,file_name)
+        inject_sql(sql_script,"deduplicate-discharges")
     except:
         print("An error occured deduplicating admissions and discharges")
 
@@ -27,15 +27,15 @@ def main():
 
     print("Step 3: fix admissions and discharges issues") 
     try:
-        file_name = "step_3_fix_record_files/2a-admissions-manually-fix-records.sql"
+        file_name = (cwd + "step_3_fix_record_files/2a-admissions-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
-        inject_sql(sql_script,file_name)
+        inject_sql(sql_script,"admissions-manually-fix-records")
 
-        file_name = "step_3_fix_record_files/2b-discharges-manually-fix-records.sql"
+        file_name = (cwd + "step_3_fix_record_files/2b-discharges-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
-        inject_sql(sql_script,file_name)
+        inject_sql(sql_script,"discharges-manually-fix-records")
     except:
         print("An error occured fixing admissions and discharge tables")
 
@@ -47,10 +47,10 @@ def main():
 
     print("Step 5: grant access")
     try:
-        file_name = "step_5_access_files/3-grant-usage-on-tables.sql"
+        file_name = (cwd + "step_5_access_files/3-grant-usage-on-tables.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
-        inject_sql(sql_script,file_name)
+        inject_sql(sql_script,"grant-usage-on-tables")
     except:
         print("An error occured granting access to new tables")
 
