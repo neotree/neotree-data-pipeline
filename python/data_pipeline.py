@@ -1,6 +1,6 @@
 from common_files.test_sql_functions import inject_sql 
-import tidy_admissions_and_discharges_table as tt
-import create_joined_and_other_derived_tables as cj
+import tidy_admissions_discharges_and_create_derived_tables as tt
+import create_joined_table as cj
 
 def main():
 
