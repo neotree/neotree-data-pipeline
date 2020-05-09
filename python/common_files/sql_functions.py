@@ -1,6 +1,6 @@
 # ref: https://docs.sqlalchemy.org/en/13/core/connections.html
 
-from common_files.test_config import config
+from common_files.config import config
 import pandas as pd
 from sqlalchemy import create_engine
 

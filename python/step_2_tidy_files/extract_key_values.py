@@ -1,7 +1,7 @@
 # This module extracts the key-value pairs within a raw json file.
+import step_2_tidy_files.json_restructure as jr
 
 def get_key_values(data_raw):
-    import json_restructure as jr
     # Will store the final list of uid, ingested_at & reformed key-value pairs
     data_new = []
     for index, rows in data_raw.iterrows():
