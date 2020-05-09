@@ -7,7 +7,7 @@ from common_files.sql_functions import create_table
 import pandas as pd
 
 def tidy_tables():
-    print("... Starting process to create tidied admissions and discharges table (derived.admissions and derived.discharges)")
+    print("... Starting process to create tidied admissions, discharges and MCL tables (derived.admissions and derived.discharges)")
 
     # Read the raw admissions and discharge data into dataframes
     print("... Fetching raw admission and discharge data")
@@ -31,7 +31,7 @@ def tidy_tables():
         adm_raw = read_table(adm_query)
         dis_raw = read_table(dis_query)
     except:
-        print("An error occured fetching the data")
+        print("!!! An error occured fetching the data")
 
     # Now let's fetch the list of properties recorded in that table
     print("... Extracting keys")
@@ -39,7 +39,7 @@ def tidy_tables():
         adm_new_entries = get_key_values(adm_raw)
         dis_new_entries = get_key_values(dis_raw)
     except:
-        print("An error occured extracting keys")
+        print("!!! An error occured extracting keys")
 
     # Create the dataframe (df) where each property is pulled out into its own colum
     print("... Creating normalized dataframes - one for admissions and one for discharges")
@@ -49,7 +49,7 @@ def tidy_tables():
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
     except:
-        print("An error occured normalized dataframes")
+        print("!!! An error occured normalized dataframes")
 
     # Now write the cleaned up admission and discharge tables back to the database
     print("... Writing the tidied admission and discharge back to the database")
@@ -60,7 +60,7 @@ def tidy_tables():
         create_table(adm_df,adm_tbl_n)
         create_table(dis_df,dis_tbl_n)
     except:
-        print("An error occured writing admissions and discharge output back to the database")  
+        print("!!! An error occured writing admissions and discharge output back to the database")  
 
     print("... Creating MCL count tables")
     try:
@@ -72,7 +72,7 @@ def tidy_tables():
         cnt_contcausedeath_label = dis_df[['ContCauseDeath.label']]
         cnt_contcausedeath_label_exp = cnt_contcausedeath_label.explode('ContCauseDeath.label')
     except:
-        print("An error occured creating MCL count tables")   
+        print("!!! An error occured creating MCL count tables")   
 
     print("... Writing MCL count output back to the database")
     try:
@@ -82,6 +82,6 @@ def tidy_tables():
         create_table(cnt_admreason_label_exp, cnt_admreason_label_tbl_n)
         create_table(cnt_contcausedeath_label_exp, cnt_contcausedeath_label_tbl_n)
     except:
-        print("An error occured writing MCL count output back to the database")  
+        print("!!! An error occured writing MCL count output back to the database")  
     
     print("... Tidy script completed!")

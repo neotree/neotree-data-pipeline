@@ -1,57 +1,64 @@
 from common_files.sql_functions import inject_sql 
 import tidy_admissions_discharges_and_create_derived_tables as tt
 import create_joined_table as cj
+import os
 
 def main():
+    cwd = os.getcwd()
     print("Step 1: deduplicate admissions and discharges ")
     try:
-        file_name = ("1-deduplicate-admissions.sql")
+        file_name = (cwd + "/step_1_deduplicate_files/1-deduplicate-admissions.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
+        sql_file.close()
         inject_sql(sql_script,"deduplicate-admissions")
 
-        file_name = ("1-duduplicate-discharges.sql")
+        file_name = (cwd + "/step_1_deduplicate_files/1-deduplicate-discharges.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
+        sql_file.close()
         inject_sql(sql_script,"deduplicate-discharges")
     except:
-        print("An error occured deduplicating admissions and discharges")
+        print("!!! An error occured deduplicating admissions and discharges")
 
 
-    print("Step 2: tidy admissions, discharges and count tables")
+    print("Step 2: tidy admissions and discharges and create MCL tables")
     try:
         tt.tidy_tables()
     except:
-        print("An error occured tidying admissions and discharges tables ")
+        print("!!! An error occured tidying or creating MCL tables ")
 
     print("Step 3: fix admissions and discharges issues") 
     try:
-        file_name = ("2a-admissions-manually-fix-records.sql")
+        file_name = (cwd + "/step_3_fix_record_files/2a-admissions-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
+        sql_file.close()
         inject_sql(sql_script,"admissions-manually-fix-records")
 
-        file_name = ("2b-discharges-manually-fix-records.sql")
+        file_name = (cwd + "/step_3_fix_record_files/2b-discharges-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
+        sql_file.close()
         inject_sql(sql_script,"discharges-manually-fix-records")
     except:
-        print("An error occured fixing admissions and discharge tables")
+        print("!!! An error occured fixing admissions and discharge tables")
 
     print("Step 4: create join and derived tables")
     try:
         cj.join_table()
     except:
-        print("An error occured joining tables")
+        print("!!! An error occured joining tables")
 
     print("Step 5: grant access")
     try:
-        file_name = ("3-grant-usage-on-tables.sql")
+        file_name = (cwd + "/step_5_access_files/3-grant-usage-on-tables.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
+        sql_file.close()
         inject_sql(sql_script,"grant-usage-on-tables")
     except:
-        print("An error occured granting access to new tables")
+        print("!!! An error occured granting access to new tables")
 
     print("Data pipeline complete!")
 

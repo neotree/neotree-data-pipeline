@@ -8,7 +8,7 @@ import pandas as pd
 
 def join_table():
     
-    print("... Starting script to create joined and other derived tables")
+    print("... Starting script to create joined table")
 
     # Read the raw admissions and discharge data into dataframes
     print("... Fetching admissions and discharges data")
@@ -28,18 +28,18 @@ def join_table():
         adm_df = read_table(adm_query)
         dis_df = read_table(dis_query)
     except:
-        print("An error occured fetching the data")
+        print("!!! An error occured fetching the data")
         
 
     # Create join of admissions & discharges (left outter join)
-    print("... Creating joined admissions and discharge table and derived columns")
+    print("... Creating joined admissions and discharge table")
     try:
         # join admissions and discharges
         jn_adm_dis = adm_df.merge(dis_df, how='left',left_index=True, right_index=True,suffixes=('_admission','_discharge'))
         # Extend join table with derived columns based on power bi logic
         jn_adm_dis_ext = create_columns(jn_adm_dis)    
     except:
-        print("An error occured creating joined dataframe")
+        print("!!! An error occured creating joined dataframe")
         
         
     # Now write the table back to the database
@@ -48,6 +48,6 @@ def join_table():
         jn_adm_dis_tbl_n = 'test_joined_admissions_discharges'
         create_table(jn_adm_dis_ext, jn_adm_dis_tbl_n)
     except:
-        print("An error occured writing join output back to the database")
+        print("!!! An error occured writing join output back to the database")
 
     print("... Join script completed!")
