@@ -3,15 +3,14 @@ import tidy_admissions_discharges_and_create_derived_tables as tt
 import create_joined_table as cj
 
 def main():
-    cwd = os.getcwd()
     print("Step 1: deduplicate admissions and discharges ")
     try:
-        file_name = (cwd + "step_1_deduplicate_files/1-deduplicate-admissions.sql")
+        file_name = ("1-deduplicate-admissions.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
         inject_sql(sql_script,"deduplicate-admissions")
 
-        file_name = (cwd + "step_1_duduplicate_files/1-deduplicate-discharges.sql")
+        file_name = ("1-duduplicate-discharges.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
         inject_sql(sql_script,"deduplicate-discharges")
@@ -27,12 +26,12 @@ def main():
 
     print("Step 3: fix admissions and discharges issues") 
     try:
-        file_name = (cwd + "step_3_fix_record_files/2a-admissions-manually-fix-records.sql")
+        file_name = ("2a-admissions-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
         inject_sql(sql_script,"admissions-manually-fix-records")
 
-        file_name = (cwd + "step_3_fix_record_files/2b-discharges-manually-fix-records.sql")
+        file_name = ("2b-discharges-manually-fix-records.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
         inject_sql(sql_script,"discharges-manually-fix-records")
@@ -47,7 +46,7 @@ def main():
 
     print("Step 5: grant access")
     try:
-        file_name = (cwd + "step_5_access_files/3-grant-usage-on-tables.sql")
+        file_name = ("3-grant-usage-on-tables.sql")
         sql_file = open(file_name,"r")
         sql_script = sql_file.read()
         inject_sql(sql_script,"grant-usage-on-tables")
