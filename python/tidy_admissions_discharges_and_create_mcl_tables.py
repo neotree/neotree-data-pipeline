@@ -37,8 +37,8 @@ def tidy_tables():
     # Now let's fetch the list of properties recorded in that table
     print("... Extracting keys")
     try:
-        adm_new_entries,adm_df = get_key_values(adm_raw)
-        dis_new_entries,dis_df = get_key_values(dis_raw)
+        adm_new_entries,adm_mcl = get_key_values(adm_raw)
+        dis_new_entries,dis_mcl = get_key_values(dis_raw)
     except:
         print("!!! An error occured extracting keys")
 
