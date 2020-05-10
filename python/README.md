@@ -15,7 +15,7 @@ outputs:
 - `derived.admissions`
 - `derived.discharges`
 - `derived.joined_admissions_and_discharges`
-- a serices of MCL count tables
+- a serices of MCL `count_` tables (the default is to explode all mcl columns in the admissions and discharages tables)
 
 ## Environment Setup
 Run the following to install the required python dependencies on any virtual environment:
@@ -41,6 +41,7 @@ The following is a decription of the directory structures and functions:
 │   ├── 1-deduplicate-admissions.sql           <- sql script to deduplicate admissions
 │   └── 1-deduplicate-discharges.sql           <- sql script to deduplicate discharges
 ├── step_2_tidy_files                          <- files to tidy admissions and discharges
+│   ├── explode_mcl_columns.py                 <- used to explode mcl columns and save tables in postgres
 │   ├── extract_key_values.py                  <- used to extract json key-value pairs
 │   └── json_restructure.py                    <- used to manage MCL logic
 ├── step_3_fix_record_files                    <- files to fix admissions and discharge records manually e.g. malformed uid's
@@ -88,7 +89,6 @@ Step 2: tidy admissions and discharges and create MCL tables
 ... Creating normalized dataframes - one for admissions and one for discharges
 ... Writing the tidied admission and discharge back to the database
 ... Creating MCL count tables
-... Writing MCL count output back to the database
 ... Tidy script completed!
 Step 3: fix admissions and discharges issues
 ... admissions-manually-fix-records has successfully run
