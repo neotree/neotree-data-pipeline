@@ -1,5 +1,6 @@
 # Import created modules (need to be stored in the same directory as notebook)
 from step_2_tidy_files.extract_key_values import get_key_values
+from step_2_tidy_files.explode_mcl_columns import explode_column
 from common_files.sql_functions import read_table
 from common_files.sql_functions import create_table
 
@@ -36,8 +37,8 @@ def tidy_tables():
     # Now let's fetch the list of properties recorded in that table
     print("... Extracting keys")
     try:
-        adm_new_entries = get_key_values(adm_raw)
-        dis_new_entries = get_key_values(dis_raw)
+        adm_new_entries,adm_df = get_key_values(adm_raw)
+        dis_new_entries,dis_df = get_key_values(dis_raw)
     except:
         print("!!! An error occured extracting keys")
 
@@ -64,24 +65,9 @@ def tidy_tables():
 
     print("... Creating MCL count tables")
     try:
-        # explode the AdmReason.label column (not setting uid as index)
-        cnt_admreason_label = adm_df[['AdmReason.label']]
-        cnt_admreason_label_exp = cnt_admreason_label.explode('AdmReason.label')
-
-        # explode the contCauseDeath.label column (not setting uid as index)
-        cnt_contcausedeath_label = dis_df[['ContCauseDeath.label']]
-        cnt_contcausedeath_label_exp = cnt_contcausedeath_label.explode('ContCauseDeath.label')
+        explode_column(adm_df,adm_mcl)
+        explode_column(dis_df,dis_mcl)
     except:
         print("!!! An error occured creating MCL count tables")   
-
-    print("... Writing MCL count output back to the database")
-    try:
-        # create count tables
-        cnt_admreason_label_tbl_n = 'test_count_admission_reason'
-        cnt_contcausedeath_label_tbl_n = 'test_count_cont_death_causes'
-        create_table(cnt_admreason_label_exp, cnt_admreason_label_tbl_n)
-        create_table(cnt_contcausedeath_label_exp, cnt_contcausedeath_label_tbl_n)
-    except:
-        print("!!! An error occured writing MCL count output back to the database")  
     
     print("... Tidy script completed!")

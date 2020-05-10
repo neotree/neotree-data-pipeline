@@ -3,7 +3,7 @@
 # These include: MCL, empty lists and list with one element
 # The input is the raw json data and the output is a reformed json (newentrieslist)
 
-def restructure(c):
+def restructure(c,mcl):
     # branch to manage MCL
     if len(c['values']) > 1:
         v={}
@@ -13,6 +13,7 @@ def restructure(c):
             if k not in v: v[k]=[val]
             else: v[k].append(val)
         k = c['key']
+        mcl.append(k)
     
     # branch to cater for empty values
     elif len(c['values']) == 0:
@@ -24,4 +25,4 @@ def restructure(c):
         k = c['key']
         v = c['values'][0]
     
-    return k,v
+    return k,v,mcl
