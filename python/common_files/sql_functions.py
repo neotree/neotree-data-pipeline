@@ -1,12 +1,13 @@
 # ref: https://docs.sqlalchemy.org/en/13/core/connections.html
+# to speed up mcl execution ref: https://docs.sqlalchemy.org/en/13/dialects/postgresql.html#psycopg2-fast-execution-helpers
 
 from common_files.config import config
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import event, create_engine
 
 params = config()
 connectionstring = 'postgresql+psycopg2://' + params["user"] + ':' + params["password"] +  '@' + params["host"] +  ':' + '5432' + '/' + params["database"] 
-engine = create_engine(connectionstring)
+engine = create_engine(connectionstring, executemany_mode='batch')
 
 def inject_sql(sql_script,file_name):
     # ref: https://stackoverflow.com/questions/19472922/reading-external-sql-script-in-python/19473206
