@@ -18,7 +18,7 @@ def tidy_tables():
                     uid,
                     ingested_at,
                     "data"->'entries' as "entries"
-                from scratch.test_deduplicated_admissions;
+                from scratch.deduplicated_admissions;
             '''
 
         dis_query = '''
@@ -26,7 +26,7 @@ def tidy_tables():
                 uid,
                 ingested_at,
                 "data"->'entries' as "entries"
-            from scratch.test_deduplicated_discharges;
+            from scratch.deduplicated_discharges;
         '''
 
         adm_raw = read_table(adm_query)
@@ -55,8 +55,8 @@ def tidy_tables():
     # Now write the cleaned up admission and discharge tables back to the database
     print("... Writing the tidied admission and discharge back to the database")
     try:
-        adm_tbl_n = 'test_admissions'
-        dis_tbl_n ='test_discharges'
+        adm_tbl_n = 'admissions'
+        dis_tbl_n ='discharges'
         
         create_table(adm_df,adm_tbl_n)
         create_table(dis_df,dis_tbl_n)

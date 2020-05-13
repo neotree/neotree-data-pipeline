@@ -8,5 +8,5 @@ def explode_column(df, mcl):
         column = (c +'.label')
         mcl_column = df[[column]]
         mcl_column_exp = mcl_column.explode(column)
-        column_name = ("test_count_"+column)
+        column_name = ("exploded_"+column)
         create_table(mcl_column_exp, column_name)

@@ -15,7 +15,7 @@ outputs:
 - `derived.admissions`
 - `derived.discharges`
 - `derived.joined_admissions_and_discharges`
-- a serices of MCL `count_` tables (the default is to explode all mcl columns in the admissions and discharages tables)
+- a serices of MCL `explode_` tables (the default is to explode all mcl columns in the admissions and discharages tables)
 
 ## Environment Setup
 Run the following to install the required python dependencies on any virtual environment:

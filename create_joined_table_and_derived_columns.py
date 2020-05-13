@@ -16,13 +16,13 @@ def join_table():
         adm_query = '''
                 select 
                     *
-                from derived.test_admissions;
+                from derived.admissions;
             '''
 
         dis_query = '''
             select 
                 *
-            from derived.test_discharges;
+            from derived.discharges;
         '''
 
         adm_df = read_table(adm_query)
@@ -45,7 +45,7 @@ def join_table():
     # Now write the table back to the database
     print("... Writing the output back to the database")
     try:
-        jn_adm_dis_tbl_n = 'test_joined_admissions_discharges'
+        jn_adm_dis_tbl_n = 'joined_admissions_discharges'
         create_table(jn_adm_dis_ext, jn_adm_dis_tbl_n)
     except:
         print("!!! An error occured writing join output back to the database")

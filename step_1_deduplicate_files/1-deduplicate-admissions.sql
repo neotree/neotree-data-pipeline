@@ -1,5 +1,5 @@
-drop table if exists scratch.test_deduplicated_admissions cascade;
-create table scratch.test_deduplicated_admissions as 
+drop table if exists scratch.deduplicated_admissions cascade;
+create table scratch.deduplicated_admissions as 
 (
   with earliest_admissions as (
     select

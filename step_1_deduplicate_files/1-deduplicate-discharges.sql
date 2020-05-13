@@ -1,5 +1,5 @@
-drop table if exists scratch.test_deduplicated_discharges cascade;
-create table scratch.test_deduplicated_discharges as 
+drop table if exists scratch.deduplicated_discharges cascade;
+create table scratch.deduplicated_discharges as 
 (
   with earliest_discharges as (
     select
