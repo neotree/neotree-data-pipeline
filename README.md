@@ -58,17 +58,25 @@ The following is a decription of the directory structures and functions:
 
 ## Pre-requisites
 
-Before the pipeline can be run you need to create a `database.ini` file in the `python -> common_files` directory with the following template:
+Before the pipeline can be run you need to create a `database.ini` file in the `python -> common_files` directory with the following template to connect to the production and staging environments:
 
 ```
-[postgresql]
+[postgresql_prod]
 host=
 database=
 user=
 password=
 ```
 
-This is then used to connect to the correct database using the appropriate credentials. Remember to add `database.ini` to the `.gitignore` file.
+```
+[postgresql_staging]
+host=
+database=
+user=
+password=
+```
+
+This is then used to connect to the correct database and environment using the appropriate credentials. Remember to add `database.ini` to the `.gitignore` file.
 
 ## Running this step in the data pipeline
 
