@@ -80,7 +80,7 @@ This is then used to connect to the correct database and environment using the a
 
 ## Running this step in the data pipeline
 
-Type the following command that includes the python script name and a arguement for which environment to run on (choices are `prod` and `stage`:
+Type the following command that includes the python script name and a arguement for which environment to run on (choices are `prod` and `stage`):
 
 ```
 $ python data_pipeline.py prod
