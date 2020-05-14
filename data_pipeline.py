@@ -19,14 +19,16 @@ def main():
         sql_file.close()
         inject_sql(sql_script,"deduplicate-discharges")
     except Exception as e:
-        print("!!! An error occured deduplicating admissions and discharges: " + e)
+        print("!!! An error occured deduplicating admissions and discharges: ")
+        raise e
 
 
     print("Step 2: tidy admissions and discharges and create MCL tables")
     try:
         tidy_tables()
     except Exception as e:
-        print("!!! An error occured tidying or creating MCL tables: " + e)
+        print("!!! An error occured tidying or creating MCL tables: ")
+        raise e
 
     print("Step 3: fix admissions and discharges issues") 
     try:
@@ -42,13 +44,15 @@ def main():
         sql_file.close()
         inject_sql(sql_script,"discharges-manually-fix-records")
     except Exception as e:
-        print("!!! An error occured fixing admissions and discharge tables: " + e)
+        print("!!! An error occured fixing admissions and discharge tables: ")
+        raise e
 
     print("Step 4: create join and derived tables")
     try:
         join_table()
     except Exception as e:
-        print("!!! An error occured joining tables: " + e)
+        print("!!! An error occured joining tables: ")
+        raise e
 
     print("Step 5: grant access")
     try:
@@ -58,7 +62,8 @@ def main():
         sql_file.close()
         inject_sql(sql_script,"grant-usage-on-tables")
     except Exception as e:
-        print("!!! An error occured granting access to new tables: " + e)
+        print("!!! An error occured granting access to new tables: ")
+        raise e
 
     print("Data pipeline complete!")
 

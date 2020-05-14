@@ -32,7 +32,8 @@ def tidy_tables():
         adm_raw = read_table(adm_query)
         dis_raw = read_table(dis_query)
     except Exception as e:
-        print("!!! An error occured fetching the data: " + e)
+        print("!!! An error occured fetching the data: ")
+        raise e
 
     # Now let's fetch the list of properties recorded in that table
     print("... Extracting keys")
@@ -40,7 +41,8 @@ def tidy_tables():
         adm_new_entries,adm_mcl = get_key_values(adm_raw)
         dis_new_entries,dis_mcl = get_key_values(dis_raw)
     except Exception as e:
-        print("!!! An error occured extracting keys: " + e)
+        print("!!! An error occured extracting keys: ")
+        raise e
 
     # Create the dataframe (df) where each property is pulled out into its own colum
     print("... Creating normalized dataframes - one for admissions and one for discharges")
@@ -50,7 +52,8 @@ def tidy_tables():
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
     except Exception as e:
-        print("!!! An error occured normalized dataframes: " + e)
+        print("!!! An error occured normalized dataframes: ")
+        raise e
 
     # Now write the cleaned up admission and discharge tables back to the database
     print("... Writing the tidied admission and discharge back to the database")
@@ -61,13 +64,15 @@ def tidy_tables():
         create_table(adm_df,adm_tbl_n)
         create_table(dis_df,dis_tbl_n)
     except Exception as e:
-        print("!!! An error occured writing admissions and discharge output back to the database: " + e)  
+        print("!!! An error occured writing admissions and discharge output back to the database: ")
+        raise e
 
     print("... Creating MCL count tables")
     try:
         explode_column(adm_df,adm_mcl)
         explode_column(dis_df,dis_mcl)
     except Exception as e:
-        print("!!! An error occured creating MCL count tables: " + e)   
+        print("!!! An error occured creating MCL count tables: ")
+        raise e
     
     print("... Tidy script completed!")
