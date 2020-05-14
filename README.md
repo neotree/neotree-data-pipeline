@@ -34,7 +34,6 @@ The following is a decription of the directory structures and functions:
 │   ├── config.py                              <- used to connect to postgres
 │   ├── database.ini                           <- used to store credentials
 │   └── sql_functions.py                       <- includes common read, write and inject sql functions
-├── create_joined_table_and_derived_columns.py <- creates the joined admissions and discharge table and derived columns
 ├── data_pipeline.py                           <- runs the end to end data pipeline process
 ├── requirements.txt                           <- used to set up python environment
 ├── step_1_deduplicate_files                   <- files that deduplicate admissions and discharges
@@ -43,15 +42,17 @@ The following is a decription of the directory structures and functions:
 ├── step_2_tidy_files                          <- files to tidy admissions and discharges
 │   ├── explode_mcl_columns.py                 <- used to explode mcl columns and save tables in postgres
 │   ├── extract_key_values.py                  <- used to extract json key-value pairs
-│   └── json_restructure.py                    <- used to manage MCL logic
+│   ├── json_restructure.py                    <- used to manage MCL logic
+│   └── tidy_admissions_discharges_and_create_mcl_tables.py <- creates tidy admissions, discharge and derived columns
 ├── step_3_fix_record_files                    <- files to fix admissions and discharge records manually e.g. malformed uid's
 │   ├── 2a-admissions-manually-fix-records.sql <- sql script to fix admissions
 │   └── 2b-discharges-manually-fix-records.sql <- sql script to fix discharges
 ├── step_4_join_and_derived_files              <- files used by create_joined_table_and_derived_columns.py
-│   └── create_derived_columns.py              <- create new derived columns for the join table
+│   ├── create_derived_columns.py              <- create new derived columns for the join table
+│    └── create_joined_table_and_derived_columns.py <- creates the joined admissions and discharge table and derived columns
 ├── step_5_access_files                        <- files to grant access
-│   └── 3-grant-usage-on-tables.sql            <- sql script to grant access
-└── tidy_admissions_discharges_and_create_mcl_tables.py <- creates tidy admissions, discharge and derived columns
+    └── 3-grant-usage-on-tables.sql            <- sql script to grant access
+
 ```
 
 
@@ -71,8 +72,10 @@ This is then used to connect to the correct database using the appropriate crede
 
 ## Running this step in the data pipeline
 
+Type the following command that includes the python script name and a arguement for which environment to run on (choices are `prod` and `stage`:
+
 ```
-$ python data_pipeline.py
+$ python data_pipeline.py prod
 ```
 
 The output should be as follows:

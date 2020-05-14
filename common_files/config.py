@@ -1,9 +1,17 @@
 # Taken from https://www.postgresqltutorial.com/postgresql-python/connect/
 #!/usr/bin/python
 from configparser import ConfigParser
+import sys
+env = sys.argv[1]
 
-
-def config(filename='common_files/database.ini', section='postgresql_prod'):
+def config(filename='common_files/database.ini'):
+    if env == "prod":
+        section='postgresql_prod'
+    elif env == "stage":
+        section='postgresql_stage'
+    else:
+        print("please include environment arguement (e.g. $ python data_pipeline.py prod)")
+    
     # create a parser
     parser = ConfigParser()
     # read config file
