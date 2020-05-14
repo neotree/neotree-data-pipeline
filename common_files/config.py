@@ -3,7 +3,7 @@
 from configparser import ConfigParser
 
 
-def config(filename='common_files/database.ini', section='postgresql_stage'):
+def config(filename='common_files/database.ini', section='postgresql_prod'):
     # create a parser
     parser = ConfigParser()
     # read config file

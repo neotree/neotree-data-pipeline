@@ -31,16 +31,16 @@ def tidy_tables():
 
         adm_raw = read_table(adm_query)
         dis_raw = read_table(dis_query)
-    except:
-        print("!!! An error occured fetching the data")
+    except Exception as e:
+        print("!!! An error occured fetching the data: " + e)
 
     # Now let's fetch the list of properties recorded in that table
     print("... Extracting keys")
     try:
         adm_new_entries,adm_mcl = get_key_values(adm_raw)
         dis_new_entries,dis_mcl = get_key_values(dis_raw)
-    except:
-        print("!!! An error occured extracting keys")
+    except Exception as e:
+        print("!!! An error occured extracting keys: " + e)
 
     # Create the dataframe (df) where each property is pulled out into its own colum
     print("... Creating normalized dataframes - one for admissions and one for discharges")
@@ -49,8 +49,8 @@ def tidy_tables():
         adm_df.set_index('uid',inplace=True)
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
-    except:
-        print("!!! An error occured normalized dataframes")
+    except Exception as e:
+        print("!!! An error occured normalized dataframes: " + e)
 
     # Now write the cleaned up admission and discharge tables back to the database
     print("... Writing the tidied admission and discharge back to the database")
@@ -60,14 +60,14 @@ def tidy_tables():
         
         create_table(adm_df,adm_tbl_n)
         create_table(dis_df,dis_tbl_n)
-    except:
-        print("!!! An error occured writing admissions and discharge output back to the database")  
+    except Exception as e:
+        print("!!! An error occured writing admissions and discharge output back to the database: " + e)  
 
     print("... Creating MCL count tables")
     try:
         explode_column(adm_df,adm_mcl)
         explode_column(dis_df,dis_mcl)
-    except:
-        print("!!! An error occured creating MCL count tables")   
+    except Exception as e:
+        print("!!! An error occured creating MCL count tables: " + e)   
     
     print("... Tidy script completed!")

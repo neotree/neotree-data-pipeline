@@ -1,6 +1,6 @@
 from common_files.sql_functions import inject_sql 
-import tidy_admissions_discharges_and_create_mcl_tables as tt
-import create_joined_table_and_derived_columns as cj
+from step_2_tidy_files.tidy_admissions_discharges_and_create_mcl_tables import tidy_tables
+from step_4_join_and_derived_files.create_joined_table_and_derived_columns import join_table
 import os
 
 def main():
@@ -18,15 +18,15 @@ def main():
         sql_script = sql_file.read()
         sql_file.close()
         inject_sql(sql_script,"deduplicate-discharges")
-    except:
-        print("!!! An error occured deduplicating admissions and discharges")
+    except Exception as e:
+        print("!!! An error occured deduplicating admissions and discharges: " + e)
 
 
     print("Step 2: tidy admissions and discharges and create MCL tables")
     try:
-        tt.tidy_tables()
-    except:
-        print("!!! An error occured tidying or creating MCL tables ")
+        tidy_tables()
+    except Exception as e:
+        print("!!! An error occured tidying or creating MCL tables: " + e)
 
     print("Step 3: fix admissions and discharges issues") 
     try:
@@ -41,14 +41,14 @@ def main():
         sql_script = sql_file.read()
         sql_file.close()
         inject_sql(sql_script,"discharges-manually-fix-records")
-    except:
-        print("!!! An error occured fixing admissions and discharge tables")
+    except Exception as e:
+        print("!!! An error occured fixing admissions and discharge tables: " + e)
 
     print("Step 4: create join and derived tables")
     try:
-        cj.join_table()
-    except:
-        print("!!! An error occured joining tables")
+        join_table()
+    except Exception as e:
+        print("!!! An error occured joining tables: " + e)
 
     print("Step 5: grant access")
     try:
@@ -57,8 +57,8 @@ def main():
         sql_script = sql_file.read()
         sql_file.close()
         inject_sql(sql_script,"grant-usage-on-tables")
-    except:
-        print("!!! An error occured granting access to new tables")
+    except Exception as e:
+        print("!!! An error occured granting access to new tables: " + e)
 
     print("Data pipeline complete!")
 

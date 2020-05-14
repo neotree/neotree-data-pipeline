@@ -27,8 +27,8 @@ def join_table():
 
         adm_df = read_table(adm_query)
         dis_df = read_table(dis_query)
-    except:
-        print("!!! An error occured fetching the data")
+    except Exception as e:
+        print("!!! An error occured fetching the data: " + e)
         
 
     # Create join of admissions & discharges (left outter join)
@@ -38,8 +38,8 @@ def join_table():
         jn_adm_dis = adm_df.merge(dis_df, how='left',left_index=True, right_index=True,suffixes=('_admission','_discharge'))
         # Extend join table with derived columns based on power bi logic
         jn_adm_dis_ext = create_columns(jn_adm_dis)    
-    except:
-        print("!!! An error occured creating joined dataframe")
+    except Exception as e:
+        print("!!! An error occured creating joined dataframe: " + e)
         
         
     # Now write the table back to the database
@@ -47,7 +47,7 @@ def join_table():
     try:
         jn_adm_dis_tbl_n = 'joined_admissions_discharges'
         create_table(jn_adm_dis_ext, jn_adm_dis_tbl_n)
-    except:
-        print("!!! An error occured writing join output back to the database")
+    except Exception as e:
+        print("!!! An error occured writing join output back to the database: " + e)
 
     print("... Join script completed!")
