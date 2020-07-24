@@ -69,7 +69,7 @@ password=
 ```
 
 ```
-[postgresql_staging]
+[postgresql_stage]
 host=
 database=
 user=
