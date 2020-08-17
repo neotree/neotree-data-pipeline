@@ -6,6 +6,7 @@ from common_files.sql_functions import create_table
 
 # Import libraries
 import pandas as pd
+from datetime import datetime as dt
 
 def tidy_tables():
     print("... Starting process to create tidied admissions, discharges and MCL tables (derived.admissions and derived.discharges)")
@@ -51,6 +52,10 @@ def tidy_tables():
         adm_df.set_index('uid',inplace=True)
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
+        # set data type for DateTimeAdmission.value and DateAdmission.value
+        # watch out for time zone (tz) issues if you change code (ref: https://github.com/pandas-dev/pandas/issues/25571)
+        adm_df['DateTimeAdmission.value'] =  pd.to_datetime(adm_df['DateTimeAdmission.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateAdmission.value'] = adm_df['DateTimeAdmission.value'].dt.date     
     except Exception as e:
         print("!!! An error occured normalized dataframes: ")
         raise e
