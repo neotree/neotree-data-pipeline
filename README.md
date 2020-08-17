@@ -18,6 +18,15 @@ outputs:
 - a serices of MCL `explode_` tables (the default is to explode all mcl columns in the admissions and discharages tables)
 
 ## Environment Setup
+
+First, make sure you have install postgresql on your machine, one option is to use the homebrew package manager:
+
+```
+$ brew install postgresql
+```
+
+If you don't do this the next step will fail.
+
 Run the following to install the required python dependencies on any virtual environment:
 
 ```
@@ -77,6 +86,7 @@ password=
 ```
 
 This is then used to connect to the correct database and environment using the appropriate credentials. Remember to add `database.ini` to the `.gitignore` file.
+
 
 ## Running this step in the data pipeline
 
