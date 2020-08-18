@@ -1,7 +1,6 @@
 # Import created modules (need to be stored in the same directory as notebook)
 from common_files.sql_functions import read_table
 from common_files.sql_functions import create_table
-from step_4_join_and_derived_files.create_derived_columns import create_columns 
 
 # Import libraries
 import pandas as pd
