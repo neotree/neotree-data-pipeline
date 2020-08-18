@@ -7,6 +7,7 @@ from common_files.sql_functions import create_table
 # Import libraries
 import pandas as pd
 from datetime import datetime as dt
+import numpy as np
 
 def tidy_tables():
     print("... Starting process to create tidied admissions, discharges and MCL tables (derived.admissions and derived.discharges)")
@@ -52,17 +53,13 @@ def tidy_tables():
         adm_df.set_index('uid',inplace=True)
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
-        # change data types for date time columns which are current text
+        # change data types for date time columns
         # watch out for time zone (tz) issues if you change code (ref: https://github.com/pandas-dev/pandas/issues/25571)
         # admissions tables
         adm_df['DateTimeAdmission.value'] =  pd.to_datetime(adm_df['DateTimeAdmission.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        # create DateAdmission column
-        adm_df['DateAdmission.value'] = adm_df['DateTimeAdmission.value'].dt.date
-        
         adm_df['EndScriptDatetime.value'] =  pd.to_datetime(adm_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         adm_df['DateHIVtest.value'] =  pd.to_datetime(adm_df['DateHIVtest.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         adm_df['ANVDRLDate.value'] =  pd.to_datetime(adm_df['ANVDRLDate.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        
         # discharges tables
         dis_df['DateAdmissionDC.value'] =  pd.to_datetime(dis_df['DateAdmissionDC.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         dis_df['DateDischVitals.value'] =  pd.to_datetime(dis_df['DateDischVitals.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
@@ -71,7 +68,9 @@ def tidy_tables():
         dis_df['EndScriptDatetime.value'] =  pd.to_datetime(dis_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         dis_df['DateWeaned.value'] =  pd.to_datetime(dis_df['DateWeaned.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         dis_df['DateTimeDeath.value'] =  pd.to_datetime(dis_df['DateTimeDeath.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        
+        # Make changes to admissions to match fields in power bi
+        adm_df = create_columns(adm_df) 
+         
     except Exception as e:
         print("!!! An error occured normalized dataframes/changing data types: ")
         raise e
