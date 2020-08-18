@@ -52,12 +52,28 @@ def tidy_tables():
         adm_df.set_index('uid',inplace=True)
         dis_df = pd.json_normalize(dis_new_entries)
         dis_df.set_index('uid',inplace=True)
-        # set data type for DateTimeAdmission.value and DateAdmission.value
+        # change data types for date time columns which are current text
         # watch out for time zone (tz) issues if you change code (ref: https://github.com/pandas-dev/pandas/issues/25571)
+        # admissions tables
         adm_df['DateTimeAdmission.value'] =  pd.to_datetime(adm_df['DateTimeAdmission.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateAdmission.value'] = adm_df['DateTimeAdmission.value'].dt.date     
+        # create DateAdmission column
+        adm_df['DateAdmission.value'] = adm_df['DateTimeAdmission.value'].dt.date
+        
+        adm_df['EndScriptDatetime.value'] =  pd.to_datetime(adm_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateHIVtest.value'] =  pd.to_datetime(adm_df['DateHIVtest.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['ANVDRLDate.value'] =  pd.to_datetime(adm_df['ANVDRLDate.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        
+        # discharges tables
+        adm_df['DateAdmissionDC.value'] =  pd.to_datetime(adm_df['DateAdmissionDC.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateDischVitals.value'] =  pd.to_datetime(adm_df['DateDischVitals.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateDischWeight.value'] =  pd.to_datetime(adm_df['DateDischWeight.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateTimeDischarge.value'] =  pd.to_datetime(adm_df['DateTimeDischarge.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['EndScriptDatetime.value'] =  pd.to_datetime(adm_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateWeaned.value'] =  pd.to_datetime(adm_df['DateWeaned.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        adm_df['DateTimeDeath.value'] =  pd.to_datetime(adm_df['DateTimeDeath.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        
     except Exception as e:
-        print("!!! An error occured normalized dataframes: ")
+        print("!!! An error occured normalized dataframes/changing data types: ")
         raise e
 
     # Now write the cleaned up admission and discharge tables back to the database
