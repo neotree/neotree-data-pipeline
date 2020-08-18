@@ -64,13 +64,13 @@ def tidy_tables():
         adm_df['ANVDRLDate.value'] =  pd.to_datetime(adm_df['ANVDRLDate.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         
         # discharges tables
-        adm_df['DateAdmissionDC.value'] =  pd.to_datetime(adm_df['DateAdmissionDC.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateDischVitals.value'] =  pd.to_datetime(adm_df['DateDischVitals.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateDischWeight.value'] =  pd.to_datetime(adm_df['DateDischWeight.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateTimeDischarge.value'] =  pd.to_datetime(adm_df['DateTimeDischarge.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['EndScriptDatetime.value'] =  pd.to_datetime(adm_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateWeaned.value'] =  pd.to_datetime(adm_df['DateWeaned.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
-        adm_df['DateTimeDeath.value'] =  pd.to_datetime(adm_df['DateTimeDeath.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateAdmissionDC.value'] =  pd.to_datetime(dis_df['DateAdmissionDC.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateDischVitals.value'] =  pd.to_datetime(dis_df['DateDischVitals.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateDischWeight.value'] =  pd.to_datetime(dis_df['DateDischWeight.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateTimeDischarge.value'] =  pd.to_datetime(dis_df['DateTimeDischarge.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['EndScriptDatetime.value'] =  pd.to_datetime(dis_df['EndScriptDatetime.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateWeaned.value'] =  pd.to_datetime(dis_df['DateWeaned.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
+        dis_df['DateTimeDeath.value'] =  pd.to_datetime(dis_df['DateTimeDeath.value'], format ='%Y-%m-%dT%H:%M:%S' , utc=True)
         
     except Exception as e:
         print("!!! An error occured normalized dataframes/changing data types: ")
