@@ -19,3 +19,7 @@ grant select on all tables in schema derived to louisdutoit;
 grant select on all tables in schema derived to metabase_usr;
 grant select on all tables in schema derived to powerbi;
 grant select on all tables in schema derived to powerbi_gateway;
+
+grant select on summary_joined_admissions_discharges to metabase_usr;
+grant select on summary_joined_admissions_discharges to yalisassoon;
+grant select on summary_joined_admissions_discharges to danielsilksmith;
