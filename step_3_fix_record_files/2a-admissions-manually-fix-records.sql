@@ -1,4 +1,4 @@
--- Fix birth weights
+-- Fix admission weights
 
 update derived.admissions set "AW.value" = 1640 WHERE "uid" ='F55F-0513';  -- original value was 164
 update derived.admissions set "AW.value" = 2000 WHERE "uid" ='6367-0975';  -- original value was 200
@@ -14,7 +14,7 @@ update derived.admissions set "AW.value" = 4000 WHERE "uid" ='6367-0862';  -- or
 update derived.admissions set "AW.value" = 4200 WHERE "uid" ='A7C6-0350';  -- original value was 42
 update derived.admissions set "AW.value" = 4200 WHERE "uid" ='A7C6-0378';  -- original value was 42
 
--- Fix admission weights
+-- Fix birth weights
 
 update derived.admissions set "BW.value" =1000 WHERE uid='A7C6-0022'; -- Original value was 100
 update derived.admissions set "BW.value" =1000 WHERE uid='6367-1109'; -- Original value was 100
