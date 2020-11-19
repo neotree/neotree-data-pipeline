@@ -1,2 +1,4 @@
 database.ini
 python/__pycache__/
+.vscode/
+env/
