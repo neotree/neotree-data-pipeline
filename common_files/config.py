@@ -9,6 +9,9 @@ def config(filename='common_files/database.ini'):
         section='postgresql_prod'
     elif env == "stage":
         section='postgresql_stage'
+    elif env == "dev":
+        section ='postgresql_dev'
+        
     else:
         print("please include environment arguement (e.g. $ python data_pipeline.py prod)")
     
