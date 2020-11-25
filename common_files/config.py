@@ -6,8 +6,12 @@ import sys
 import logging
 import os,stat
 # Configuration for Global Logger
+filename = "/var/log/data_pipeline.log"
+#Change file Permissions
+os.chmod(filename, stat.S_IWOTH | stat.S_IROTH)
+
 logging.basicConfig(level=logging.INFO
-,filename ="/var/log/data_pipeline.log"
+,filename =filename
 ,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
 ,datefmt='%d-%b-%y %H:%M:%S')
 # set up logging to console
@@ -17,9 +21,6 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter) 
 # add the handler to the root logger 
 logging.getLogger('').addHandler(console) 
-
-#Change file Permissions
-os.chmod("/var/log/data_pipeline.log", stat.S_IWOTH | stat.S_IROTH)
 
 
 if len(sys.argv) > 1:
