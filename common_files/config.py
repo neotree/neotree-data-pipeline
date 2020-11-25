@@ -5,13 +5,15 @@ from configparser import ConfigParser
 import sys
 import logging
 import os,stat
+from pathlib import Path
 # Configuration for Global Logger
-filepath = open('/var/log/data_pipeline.log', 'w+')
+filename = Path('/var/log/data_pipeline.log')
+filename.touch(exist_ok=True)
 #Change file Permissions
-os.chmod(filepath, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
+os.chmod(filename, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
 
 logging.basicConfig(level=logging.INFO
-,filename =filepath
+,filename =filename
 ,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
 ,datefmt='%d-%b-%y %H:%M:%S')
 # set up logging to console
