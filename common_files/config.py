@@ -6,7 +6,7 @@ import sys
 import logging
 # Configuration for Global Logger
 logging.basicConfig(level=logging.INFO
-,filename ="C:\/Users\/morris\/Documents\/BRTI\/data_pipeline.log"
+,filename ="/var/log/data_pipeline.log"
 ,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
 ,datefmt='%d-%b-%y %H:%M:%S')
 # set up logging to console
