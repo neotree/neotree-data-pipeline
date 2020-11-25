@@ -4,6 +4,7 @@ from configparser import ConfigParser
 #import libraries
 import sys
 import logging
+import os,stat
 # Configuration for Global Logger
 logging.basicConfig(level=logging.INFO
 ,filename ="/var/log/data_pipeline.log"
@@ -16,6 +17,9 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter) 
 # add the handler to the root logger 
 logging.getLogger('').addHandler(console) 
+
+#Change file Permissions
+os.chmod("/var/log/data_pipeline.log", stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
 
 if len(sys.argv) > 1:
