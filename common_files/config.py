@@ -7,9 +7,10 @@ import logging
 import os,stat
 from pathlib import Path
 # Configuration for Global Logger
-filename = Path('/var/log/data_pipeline.log')
+filePath = '/var/log/'
 #Change file Permissions
-os.chmod(filename, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
+os.chmod(filePath, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
+filename = Path(filePath+'data_pipeline.log')
 filename.touch(exist_ok=True)
 
 
