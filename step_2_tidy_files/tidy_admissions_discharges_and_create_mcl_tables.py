@@ -9,12 +9,13 @@ from common_files.sql_functions import create_table
 import pandas as pd
 from datetime import datetime as dt
 import numpy as np
+import logging
 
 def tidy_tables():
-    print("... Starting process to create tidied admissions, discharges and MCL tables (derived.admissions and derived.discharges)")
+    logging.info("... Starting process to create tidied admissions, discharges and MCL tables (derived.admissions and derived.discharges)")
 
     # Read the raw admissions and discharge data into dataframes
-    print("... Fetching raw admission and discharge data")
+    logging.info("... Fetching raw admission and discharge data")
     try:
         adm_query = '''
                 select 
@@ -35,20 +36,20 @@ def tidy_tables():
         adm_raw = read_table(adm_query)
         dis_raw = read_table(dis_query)
     except Exception as e:
-        print("!!! An error occured fetching the data: ")
+        logging.error("!!! An error occured fetching the data: ")
         raise e
 
     # Now let's fetch the list of properties recorded in that table
-    print("... Extracting keys")
+    logging.info("... Extracting keys")
     try:
         adm_new_entries,adm_mcl = get_key_values(adm_raw)
         dis_new_entries,dis_mcl = get_key_values(dis_raw)
     except Exception as e:
-        print("!!! An error occured extracting keys: ")
+        logging.error("!!! An error occured extracting keys: ")
         raise e
 
     # Create the dataframe (df) where each property is pulled out into its own colum
-    print("... Creating normalized dataframes - one for admissions and one for discharges")
+    logging.info("... Creating normalized dataframes - one for admissions and one for discharges")
     try:
         adm_df = pd.json_normalize(adm_new_entries)
         adm_df.set_index('uid',inplace=True)
@@ -68,6 +69,11 @@ def tidy_tables():
         adm_df['ANVDRLDate.value'] = adm_df['ANVDRLDate.value'].map(lambda x: str(x)[:-4])
         adm_df['ANVDRLDate.value'] =  pd.to_datetime(adm_df['ANVDRLDate.value'],format ='%Y-%m-%dT%H:%M:%S',utc = True)
         
+        #Remove Space From BW.Value :: Issue Was Affecting Dev Database
+        if 'BW .value' in adm_df.columns:
+            adm_df['BW.value'] = adm_df['BW .value']
+            adm_df.drop('BW .value', axis='columns', inplace=True)
+
         # discharges tables
         dis_df['DateAdmissionDC.value'] = dis_df['DateAdmissionDC.value'].map(lambda x: str(x)[:-4])
         dis_df['DateAdmissionDC.value'] =  pd.to_datetime(dis_df['DateAdmissionDC.value'],format ='%Y-%m-%dT%H:%M:%S',utc = True)
@@ -84,14 +90,15 @@ def tidy_tables():
         dis_df['DateTimeDeath.value'] = dis_df['DateTimeDeath.value'].map(lambda x: str(x)[:-4])
         dis_df['DateTimeDeath.value'] =  pd.to_datetime(dis_df['DateTimeDeath.value'],format ='%Y-%m-%dT%H:%M:%S',utc = True)
         # Make changes to admissions to match fields in power bi
+        
         adm_df = create_columns(adm_df) 
          
     except Exception as e:
-        print("!!! An error occured normalized dataframes/changing data types: ")
+        logging.error("!!! An error occured normalized dataframes/changing data types: ")
         raise e
 
     # Now write the cleaned up admission and discharge tables back to the database
-    print("... Writing the tidied admission and discharge back to the database")
+    logging.info("... Writing the tidied admission and discharge back to the database")
     try:
         adm_tbl_n = 'admissions'
         dis_tbl_n ='discharges'
@@ -99,15 +106,15 @@ def tidy_tables():
         create_table(adm_df,adm_tbl_n)
         create_table(dis_df,dis_tbl_n)
     except Exception as e:
-        print("!!! An error occured writing admissions and discharge output back to the database: ")
+        logging.error("!!! An error occured writing admissions and discharge output back to the database: ")
         raise e
 
-    print("... Creating MCL count tables")
+    logging.info("... Creating MCL count tables")
     try:
         explode_column(adm_df,adm_mcl)
         explode_column(dis_df,dis_mcl)
     except Exception as e:
-        print("!!! An error occured creating MCL count tables: ")
+        logging.error("!!! An error occured creating MCL count tables: ")
         raise e
     
-    print("... Tidy script completed!")
+    logging.info("... Tidy script completed!")

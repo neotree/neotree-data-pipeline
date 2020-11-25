@@ -11,7 +11,6 @@ def create_columns(table):
     Comments indicate which DAX formulas have been used and which expressession have not be replicated due to complexity issues
     For things that couldn't easily be on here the recommendation is to try and use Metabase
     ''' 
-
     # if you want to show values from ReferredFrom and ReferredFrom2 - not currently done
     # jn_adm_dis['AdmittedFrom.label'] = jn_adm_dis['AdmittedFrom.label'].mask(pd.isnull, (jn_adm_dis['ReferredFrom.label'].mask(pd.isnull,jn_adm_dis['ReferredFrom2.label'])))
     # jn_adm_dis['AdmittedFrom.value'] = jn_adm_dis['AdmittedFrom.value'].mask(pd.isnull, (jn_adm_dis['ReferredFrom.value'].mask(pd.isnull,jn_adm_dis['ReferredFrom2.value'])))
@@ -35,7 +34,6 @@ def create_columns(table):
     # if(Admissions[Gestation]<32; "28-32 wks"; 
     # if(Admissions[Gestation]<34; "32-34 wks";
     # if(Admissions[Gestation]<37; "34-36+6 wks"; "Term")))))
-
     # order of statements matters
     table.loc[table['Gestation.value'].isnull() , 'GestGroup.value'] = float('nan')
     table.loc[table['Gestation.value'] >= 37 , 'GestGroup.value'] = "Term"
@@ -50,8 +48,10 @@ def create_columns(table):
     # if(Admissions[bw-2]<1500; "VLBW"; 
     # if(Admissions[bw-2]<2500; "LBW"; 
     # if(Admissions[bw-2]<4000; "NBW"; "HBW")))))
-
+    
     # order of statements matters
+   
+    
     table.loc[table['BW.value'].isnull() , 'BWGroup.value'] = "Unknown"
     table.loc[table['BW.value'] >= 4000 , 'BWGroup.value'] = "HBW"
     table.loc[table['BW.value'] < 4000 , 'BWGroup.value'] = "NBW"
@@ -116,7 +116,8 @@ def create_columns(table):
     # Create ThermiaOrder = RELATED(ThermiaOrder[Order]) - see if this can be done in tool
 
     # Create <28wks/1kg = AND(Admissions[bw-2]<> Blank(); OR(Admissions[bw-2]<1000; Admissions[Gestation]<28))
-
+    # Test if 'BW.value' is availble in the set of keys
+   
     table['<28wks/1kg.value'] = ((table['BW.value'] > 0) & ((table['BW.value'] < 1000) | (table['Gestation.value'] < 28)))
 
     # Create LBWBinary = AND(Admissions[bw-2]<> Blank();(Admissions[bw-2]<2500))

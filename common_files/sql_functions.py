@@ -4,6 +4,7 @@
 from common_files.config import config
 import pandas as pd
 from sqlalchemy import event, create_engine
+import logging
 
 params = config()
 connectionstring = 'postgresql+psycopg2://' + params["user"] + ':' + params["password"] +  '@' + params["host"] +  ':' + '5432' + '/' + params["database"] 
@@ -18,7 +19,7 @@ def inject_sql(sql_script,file_name):
         # last element in list is empty and causes error without this except clause
         except:
             pass
-    print('...',file_name, 'has successfully run')
+    logging.info('... {0} has successfully run'.format(file_name))
 
 def read_table(query):
     # Read the deduplicated admissions/discharges tables
