@@ -8,7 +8,7 @@ import os,stat
 # Configuration for Global Logger
 filepath = "/var/log/"
 #Change file Permissions
-os.chmod(filepath, stat.S_IWOTH | stat.S_IROTH)
+os.chmod(filepath, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
 
 logging.basicConfig(level=logging.INFO
 ,filename =filepath+'data_pipeline.log'
