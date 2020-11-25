@@ -19,7 +19,7 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console) 
 
 #Change file Permissions
-os.chmod("/var/log/data_pipeline.log", stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+os.chmod("/var/log/data_pipeline.log", stat.S_IWOTH | stat.S_IROTH)
 
 
 if len(sys.argv) > 1:
