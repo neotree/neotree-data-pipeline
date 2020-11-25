@@ -6,12 +6,12 @@ import sys
 import logging
 import os,stat
 # Configuration for Global Logger
-filepath = "/var/log/"
+filepath = open('/var/log/data_pipeline.log', 'w+')
 #Change file Permissions
 os.chmod(filepath, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
 
 logging.basicConfig(level=logging.INFO
-,filename =filepath+'data_pipeline.log'
+,filename =filepath
 ,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
 ,datefmt='%d-%b-%y %H:%M:%S')
 # set up logging to console
