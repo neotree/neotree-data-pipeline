@@ -8,9 +8,10 @@ import os,stat
 from pathlib import Path
 # Configuration for Global Logger
 filename = Path('/var/log/data_pipeline.log')
-filename.touch(exist_ok=True)
 #Change file Permissions
 os.chmod(filename, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
+filename.touch(exist_ok=True)
+
 
 logging.basicConfig(level=logging.INFO
 ,filename =filename
