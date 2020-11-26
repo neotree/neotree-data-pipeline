@@ -27,7 +27,7 @@ try:
 # Set The Time For The Cron Job
 # Use job.minute for quick testing
     #job.minute.every(interval)
-    job.every(interval).hours
+    job.every(interval).hours()
 # Write the Job To CronTab
     cron.write( user=True )
     logging.info('Cron Job Set To Run On Every {0} hour Intervals'.format(interval))
