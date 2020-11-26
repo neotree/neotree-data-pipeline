@@ -6,24 +6,22 @@ import sys
 import logging
 import os,stat
 from pathlib import Path
-# Configuration for Global Logger
-filePath = '/var/log/'
-#Change file Permissions
-os.chmod(filePath, stat.S_IRWXO |stat.S_IWOTH | stat.S_IROTH | stat.S_IXOTH)
-filename = Path(filePath+'data_pipeline.log')
+
+# Create Log File If Not Exist
+filename = Path('/var/log/data_pipeline.log')
 filename.touch(exist_ok=True)
 
-
+# Configure Global Logger :: These settings will apply everywhere where thr logging library is called
 logging.basicConfig(level=logging.INFO
 ,filename =filename
 ,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
 ,datefmt='%d-%b-%y %H:%M:%S')
-# set up logging to console
+# Set up logging to console
 console = logging.StreamHandler();
-# set a format which is simpler for console use 
+# Set a format which is simpler for console use 
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter) 
-# add the handler to the root logger 
+# Add the handler to the root logger 
 logging.getLogger('').addHandler(console) 
 
 
