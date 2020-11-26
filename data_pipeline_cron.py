@@ -17,8 +17,9 @@ try:
 # Use job.minute for quick testing
     job.minute.every(interval)
 # job.every(interval).hours
-# Write The New Job To CronTab
+# Run The New Job To CronTab
     job.run()
+    
 except Exception as e:
     logging.error("!!Cron Job Failed To Start Due To Errors: ")
     logging.error(formatError(e))

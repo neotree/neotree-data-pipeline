@@ -37,8 +37,7 @@ if len(sys.argv) > 1:
             section = 'postgresql_dev'
 
         else:
-            logging.error(
-                env, "is not a valid arguement: Valid arguements are (dev stage or prod)")
+            logging.error(env, "is not a valid arguement: Valid arguements are (dev stage or prod)")
             sys.exit()
 
          # create a parser
@@ -55,13 +54,11 @@ if len(sys.argv) > 1:
             for param in params:
                 db[param[0]] = param[1]
         else:
-            logging.error(
-                'Section {0} not found in the {1} file'.format(section, filename))
+            logging.error('Section {0} not found in the {1} file'.format(section, filename))
             sys.exit()
 
         logging.info("Ready To Run Data Pipeline in {0} mode".format(env))
         return db
 else:
-    logging.error(
-        "Please include environment arguement (e.g. $ python data_pipeline.py prod)")
+    logging.error("Please include environment arguement (e.g. $ python data_pipeline.py prod)")
     sys.exit()
