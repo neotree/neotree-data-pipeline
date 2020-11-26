@@ -4,7 +4,8 @@ from configparser import ConfigParser
 #import libraries
 import sys
 import logging
-import os,stat
+import os
+import stat
 from pathlib import Path
 
 # Create Log File If Not Exist
@@ -13,33 +14,33 @@ filename = Path('C:\/Users\/morris\/Documents\/data_pipeline.log')
 filename.touch(exist_ok=True)
 
 # Configure Global Logger :: These settings will apply everywhere where thr logging library is called
-logging.basicConfig(level=logging.INFO
-,filename =filename
-,filemode="w",format='%(asctime)s - %(levelname)s - %(message)s'
-,datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(level=logging.INFO, filename=filename, filemode="w",
+                    format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 # Set up logging to console
-console = logging.StreamHandler();
-# Set a format which is simpler for console use 
+console = logging.StreamHandler()
+# Set a format which is simpler for console use
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter) 
-# Add the handler to the root logger 
-logging.getLogger('').addHandler(console) 
+console.setFormatter(formatter)
+# Add the handler to the root logger
+logging.getLogger('').addHandler(console)
 
 
 if len(sys.argv) > 1:
     env = sys.argv[1]
+
     def config(filename='common_files/database.ini'):
         if env == "prod":
-            section='postgresql_prod'
+            section = 'postgresql_prod'
         elif env == "stage":
-            section='postgresql_stage'
+            section = 'postgresql_stage'
         elif env == "dev":
-            section ='postgresql_dev'
-        
+            section = 'postgresql_dev'
+
         else:
-            logging.error(env,"is not a valid arguement: Valid arguements are (dev stage or prod)");
+            logging.error(
+                env, "is not a valid arguement: Valid arguements are (dev stage or prod)")
             sys.exit()
-    
+
          # create a parser
         parser = ConfigParser()
         # read config file
@@ -54,12 +55,13 @@ if len(sys.argv) > 1:
             for param in params:
                 db[param[0]] = param[1]
         else:
-            logging.error('Section {0} not found in the {1} file'.format(section, filename))
+            logging.error(
+                'Section {0} not found in the {1} file'.format(section, filename))
             sys.exit()
-            
+
         logging.info("Ready To Run Data Pipeline in {0} mode".format(env))
         return db
 else:
-    logging.error("Please include environment arguement (e.g. $ python data_pipeline.py prod)")
+    logging.error(
+        "Please include environment arguement (e.g. $ python data_pipeline.py prod)")
     sys.exit()
-    
