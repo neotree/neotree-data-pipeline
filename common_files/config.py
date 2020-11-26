@@ -37,7 +37,7 @@ if len(sys.argv) > 1:
             section = 'postgresql_dev'
 
         else:
-            logging.error(env, "is not a valid arguement: Valid arguements are (dev stage or prod)")
+            logging.error("{0} is not a valid arguement: Valid arguements are (dev stage or prod)".format(env))
             sys.exit()
 
          # create a parser
