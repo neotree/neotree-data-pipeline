@@ -8,7 +8,8 @@ import os,stat
 from pathlib import Path
 
 # Create Log File If Not Exist
-filename = Path('/var/log/data_pipeline.log')
+filename = Path('C:\/Users\/morris\/Documents\/data_pipeline.log')
+#filename = Path('/var/log/data_pipeline.log')
 filename.touch(exist_ok=True)
 
 # Configure Global Logger :: These settings will apply everywhere where thr logging library is called
@@ -48,6 +49,8 @@ if len(sys.argv) > 1:
         db = {}
         if parser.has_section(section):
             params = parser.items(section)
+        # add environment to global params for use by other functions
+            db['env'] = env
             for param in params:
                 db[param[0]] = param[1]
         else:

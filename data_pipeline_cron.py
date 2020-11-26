@@ -5,12 +5,13 @@ from common_files.format_error import formatError;
 import sys
 params = config()
 cron_user = params['cron_user']
+mode = params['env']
 interval =   int(params['cron_interval'])
 try:
 #Set The User To Run The Cron Job
     cron = CronTab(user=cron_user)
 #Set The Command To Be Run
-    job = cron.new(command='python data_pipeline.py dev')
+    job = cron.new(command='python data_pipeline.py {0}'.format(mode))
 #Set The Time For The Cron Job
 #Use job.minute for quick testing    
     job.every(interval).minutes()
