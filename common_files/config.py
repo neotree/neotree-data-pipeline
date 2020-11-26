@@ -9,8 +9,8 @@ import stat
 from pathlib import Path
 
 # Create Log File If Not Exist
-filename = Path('C:\/Users\/morris\/Documents\/data_pipeline.log')
-#filename = Path('/var/log/data_pipeline.log')
+#filename = Path('C:\/Users\/morris\/Documents\/data_pipeline.log')
+filename = Path('/var/log/data_pipeline.log')
 filename.touch(exist_ok=True)
 
 # Configure Global Logger :: These settings will apply everywhere where thr logging library is called
