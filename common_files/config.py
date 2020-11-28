@@ -14,7 +14,7 @@ filename = Path('/var/log/data_pipeline.log')
 filename.touch(exist_ok=True)
 
 # Configure Global Logger :: These settings will apply everywhere where thr logging library is called
-logging.basicConfig(level=logging.INFO, filename=filename, filemode="w",
+logging.basicConfig(level=logging.INFO, filename=filename, filemode="a+",
                     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 # Set up logging to console
 console = logging.StreamHandler()
@@ -56,8 +56,10 @@ if len(sys.argv) > 1:
         else:
             logging.error('Section {0} not found in the {1} file'.format(section, filename))
             sys.exit()
-
+        #Put Separaters to easily distinguish a new execution
+        logging.info("===================================================================================")
         logging.info("Ready To Run Data Pipeline in {0} mode".format(env))
+        logging.info("===================================================================================")
         return db
 else:
     logging.error("Please include environment arguement (e.g. $ python data_pipeline.py prod)")
