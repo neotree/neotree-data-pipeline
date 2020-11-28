@@ -30,15 +30,16 @@ SELECT derived.joined_admissions_discharges.uid AS "uid",
         CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value") :: DATE, 'YYYYmm') AS decimal) AS "AdmissionMonthYearSort",
         derived.joined_admissions_discharges."ANSteroids.label" As "AntenatalSteroids",
       	Case 
-         when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%Death%' THEN 1 
-         when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%NND%' THEN 1 
+          --PUT DOUBLE % TO ESCAPE THE STRING FORMATTING % FROM PYTHON
+         when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%Death%%' THEN 1 
+         when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%NND%%' THEN 1 
        	end as "DeathCount",
        	Case when derived.joined_admissions_discharges."NeoTreeOutcome.label" IS NOT NULL THEN 1 end as "DischargeCount",
        	Case when derived.joined_admissions_discharges."BWGroup.value" IS NOT NULL THEN 1 end as "BirthWeightCount",
        	Case when derived.joined_admissions_discharges."AWGroup.value" IS NOT NULL THEN 1 end as "AdmissionWeightCount",
        	Case when derived.joined_admissions_discharges."GestGroup.value" IS NOT NULL THEN 1 end as "GestationCount",
-       	Case when derived.joined_admissions_discharges."InOrOut.label" like '%Outside%' THEN 1 end as "OutsideFacilityCount",
-		Case when derived.joined_admissions_discharges."InOrOut.label" like '%Within%' THEN 1  end as "WithinFacilityCount",
+       	Case when derived.joined_admissions_discharges."InOrOut.label" like '%%Outside%%' THEN 1 end as "OutsideFacilityCount",
+		Case when derived.joined_admissions_discharges."InOrOut.label" like '%%Within%%' THEN 1  end as "WithinFacilityCount",
 		Case when derived.joined_admissions_discharges."DateTimeAdmission.value" IS NOT NULL Then 1  end as "AdmissionCount"
 FROM derived.joined_admissions_discharges
 ORDER BY derived.joined_admissions_discharges.uid ASC;
