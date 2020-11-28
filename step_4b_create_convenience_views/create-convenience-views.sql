@@ -30,7 +30,6 @@ SELECT derived.joined_admissions_discharges.uid AS "uid",
         CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value") :: DATE, 'YYYYmm') AS decimal) AS "AdmissionMonthYearSort",
         derived.joined_admissions_discharges."ANSteroids.label" As "AntenatalSteroids",
       	Case 
-          --PUT DOUBLE % TO ESCAPE THE STRING FORMATTING % FROM PYTHON
          when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%Death%%' THEN 1 
          when derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%NND%%' THEN 1 
        	end as "DeathCount",
