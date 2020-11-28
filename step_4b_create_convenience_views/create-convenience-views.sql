@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS derived.summary_joined_admissions_discharges;
+DROP TABLE IF EXISTS "derived.summary_joined_admissions_discharges";
 
-CREATE TABLE derived.summary_joined_admissions_discharges AS
+CREATE TABLE "derived.summary_joined_admissions_discharges" AS
 SELECT "derived"."joined_admissions_discharges"."uid" AS "uid", 
 		"derived"."joined_admissions_discharges"."DateTimeAdmission.value" as "AdmissionDateTime",
 		"derived"."joined_admissions_discharges"."Readmission.label" as "Readmitted", 
