@@ -18,7 +18,7 @@ def main():
     cron_time = datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
 #The execution environment to be used as set in the parameters
     mode = params['env']
-    cron_log = open("/var/log/cron_log","a+")
+    cron_log = open("/var/log/data_pipeline_cron.log","a+")
 #Put Separaters to easily distinguish a new execution
     logging.info("===================================================================================")
     logging.info("Ready To Run Data Pipeline in {0} mode".format(mode))
@@ -132,6 +132,6 @@ def main():
     logging.info("Data pipeline complete in {0} minutes {1} seconds!".format(
         execution_time_minutes, execution_time_seconds))
     cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Success ExecutionTime: {2} mins {3} seconds \n".format(cron_time,mode,execution_time_minutes,execution_time_seconds))
-
+    cron_log.close()
 if __name__ == "__main__":
     main()
