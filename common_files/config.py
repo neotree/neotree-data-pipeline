@@ -56,10 +56,7 @@ if len(sys.argv) > 1:
         else:
             logging.error('Section {0} not found in the {1} file'.format(section, filename))
             sys.exit()
-        #Put Separaters to easily distinguish a new execution
-        logging.info("===================================================================================")
-        logging.info("Ready To Run Data Pipeline in {0} mode".format(env))
-        logging.info("===================================================================================")
+        
         return db
 else:
     logging.error("Please include environment arguement (e.g. $ python data_pipeline.py prod)")
