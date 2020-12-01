@@ -49,6 +49,12 @@ def main():
         sql_script = sql_file.read()
         sql_file.close()
         inject_sql(sql_script, "admissions-manually-fix-records")
+    except Exception as e:
+        logging.error(
+            "!!! An error occured fixing admissions tables: ")
+        logging.error(formatError(e))
+        sys.exit(1)
+    try:
 
         file_name = (
             cwd + "/step_3_fix_record_files/2b-discharges-manually-fix-records.sql")
@@ -58,7 +64,7 @@ def main():
         inject_sql(sql_script, "discharges-manually-fix-records")
     except Exception as e:
         logging.error(
-            "!!! An error occured fixing admissions and discharge tables: ")
+            "!!! An error occured fixing dischargers tables: ")
         logging.error(formatError(e))
         sys.exit(1)
 
