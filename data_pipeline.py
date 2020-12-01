@@ -44,7 +44,7 @@ def main():
         logging.error(
             "!!! An error occured deduplicating admissions and discharges: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 1 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed   Stage: Step 1 \n".format(cron_time,mode))
         cron_log.close()
         sys.exit(1)
 
@@ -55,7 +55,7 @@ def main():
     except Exception as e:
         logging.error("!!! An error occured tidying or creating MCL tables: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 2 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed   Stage: Step 2 \n".format(cron_time,mode))
         cron_log.close()
         sys.exit(1)
 
@@ -71,7 +71,7 @@ def main():
         logging.error(
             "!!! An error occured fixing admissions tables: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 3 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed   Stage: Step 3 \n".format(cron_time,mode))
         cron_log.close()
         sys.exit(1)
     try:
@@ -93,7 +93,7 @@ def main():
         join_table()
     except Exception as e:
         logging.error("!!! An error occured joining tables: ")
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed   Stage: Step 4 \n".format(cron_time,mode))
         logging.error(formatError(e))
         cron_log.close()
         sys.exit(1)
@@ -109,7 +109,7 @@ def main():
     except Exception as e:
         logging.error("!!! An error occured creating convenience views: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
         cron_log.close()
         sys.exit(1)
 
@@ -123,7 +123,7 @@ def main():
     except Exception as e:
         logging.error("!!! An error occured granting access to new tables: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 5 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   Instance: {1}   Status: Failed   Step: Step 5 \n".format(cron_time,mode))
         cron_log.close()
         sys.exit(1)
 
@@ -137,7 +137,7 @@ def main():
 
     logging.info("Data pipeline complete in {0} minutes {1} seconds!".format(
         execution_time_minutes, execution_time_seconds))
-    cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Success ExecutionTime: {2} mins {3} seconds \n".format(cron_time,mode,execution_time_minutes,execution_time_seconds))
+    cron_log.write("StartTime: {0}   Instance: {1}   Status: Success  ExecutionTime: {2} mins {3} seconds \n".format(cron_time,mode,execution_time_minutes,execution_time_seconds))
     cron_log.close()
 if __name__ == "__main__":
     main()
