@@ -1,4 +1,4 @@
-grant usage on schema derived to danielsilksmith;
+grant usage on schema derived to danielsilksmith if exists (select this from   pg_catalog.pg_rolesWHERE  rolname = 'danielsilksmith');
 grant usage on schema scratch to danielsilksmith;
 grant usage on schema derived to yalisassoon;
 grant usage on schema scratch to yalisassoon;

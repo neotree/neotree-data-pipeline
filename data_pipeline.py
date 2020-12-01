@@ -45,6 +45,7 @@ def main():
             "!!! An error occured deduplicating admissions and discharges: ")
         logging.error(formatError(e))
         cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 1 \n".format(cron_time,mode))
+        cron_log.close()
         sys.exit(1)
 
     logging.info(
@@ -55,6 +56,7 @@ def main():
         logging.error("!!! An error occured tidying or creating MCL tables: ")
         logging.error(formatError(e))
         cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 2 \n".format(cron_time,mode))
+        cron_log.close()
         sys.exit(1)
 
     logging.info("Step 3: fix admissions and discharges issues")
@@ -70,6 +72,7 @@ def main():
             "!!! An error occured fixing admissions tables: ")
         logging.error(formatError(e))
         cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 3 \n".format(cron_time,mode))
+        cron_log.close()
         sys.exit(1)
     try:
 
@@ -92,6 +95,7 @@ def main():
         logging.error("!!! An error occured joining tables: ")
         cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
         logging.error(formatError(e))
+        cron_log.close()
         sys.exit(1)
 
     logging.info("Step 4b: create convenience views")
@@ -106,6 +110,7 @@ def main():
         logging.error("!!! An error occured creating convenience views: ")
         logging.error(formatError(e))
         cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
+        cron_log.close()
         sys.exit(1)
 
     logging.info("Step 5: grant access")
@@ -118,7 +123,8 @@ def main():
     except Exception as e:
         logging.error("!!! An error occured granting access to new tables: ")
         logging.error(formatError(e))
-        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 4 \n".format(cron_time,mode))
+        cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Failed  Stage: Step 5 \n".format(cron_time,mode))
+        cron_log.close()
         sys.exit(1)
 
     end = time.time()
