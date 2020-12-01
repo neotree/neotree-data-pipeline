@@ -131,7 +131,7 @@ def main():
 
     logging.info("Data pipeline complete in {0} minutes {1} seconds!".format(
         execution_time_minutes, execution_time_seconds))
-    cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Success  Stage: Final Complete \n".format(cron_time,mode))
+    cron_log.write("StartTime: {0}   ,Instance: {1}  ,Status: Success ExecutionTime: {2} mins {3} seconds \n".format(cron_time,mode,execution_time_minutes,execution_time_seconds))
 
 if __name__ == "__main__":
     main()
