@@ -1,4 +1,4 @@
-from common_files.sql_functions import inject_sql
+from common_files.sql_functions import inject_sql,inject_sql_procedure
 from common_files.format_error import formatError
 from step_2_tidy_files.tidy_admissions_discharges_and_create_mcl_tables import tidy_tables
 from step_4_join_and_derived_files.create_joined_table_and_derived_columns import join_table
@@ -119,7 +119,7 @@ def main():
         sql_file = open(file_name, "r")
         sql_script = sql_file.read()
         sql_file.close()
-        inject_sql(sql_script, "grant-usage-on-tables")
+        inject_sql_procedure(sql_script, "grant-usage-on-tables")
     except Exception as e:
         logging.error("!!! An error occured granting access to new tables: ")
         logging.error(formatError(e))

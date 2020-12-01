@@ -28,6 +28,15 @@ def inject_sql(sql_script, file_name):
             sys.exit()
     logging.info('... {0} has successfully run'.format(file_name))
 
+def inject_sql_procedure(sql_script, file_name):
+        try:
+            engine.connect().execute(sql_script)
+        except Exception as e:
+            logging.error('Something went wrong with the SQL file');
+            logging.error(formatError(e))
+            sys.exit()
+        logging.info('... {0} has successfully run'.format(file_name))
+
 
 def read_table(query):
     # Read the deduplicated admissions/discharges tables
