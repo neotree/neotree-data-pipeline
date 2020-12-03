@@ -1,5 +1,8 @@
 DO $do$
 BEGIN
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'neotree') THEN 
+	GRANT  SELECT ON ALL TABLES IN SCHEMA derived TO neotree;
+    END IF;
     IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'danielsilksmith') THEN
         grant usage on schema derived to danielsilksmith;
         grant usage on schema scratch to danielsilksmith;
