@@ -81,6 +81,10 @@ def tidy_tables():
             adm_df['ANVDRLDate.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
 
         # Remove Space From BW.Value :: Issue Was Affecting Dev Database
+        if 'BW .label' in adm_df.columns: 
+            adm_df['BW.label'] = adm_df['BW .label']
+            adm_df.drop('BW .label',axis='columns',inplace=True)
+
         if 'BW .value' in adm_df.columns:
             adm_df['BW.value'] = adm_df['BW .value']
             adm_df.drop('BW .value', axis='columns', inplace=True)

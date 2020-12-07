@@ -142,6 +142,8 @@ def create_columns(table):
 
     table['LBWBinary'] = ((table['BW.value'] > 0) & (table['BW.value'] < 2500))
 
+    
+
     # Create YearMonth = FORMAT(Admissions[DateTimeAdmission];"yy-mm")
     #table['YearMonth.value'] = table['DateTimeAdmission.value'].apply(lambda x: pd.Timestamp(x).strftime('%y-%m'))
     #table['DateAdmission.value'] = table['DateTimeAdmission.value'].dt.date
