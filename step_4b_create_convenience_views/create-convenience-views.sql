@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS derived.summary_joined_admissions_discharges;
 CREATE TABLE derived.summary_joined_admissions_discharges AS
-SELECT "source"."uid" AS "uid", "source"."AdmissionDateTime" AS "AdmissionDateTime", "source"."Readmitted" AS "Readmitted", "source"."admission_source" AS "admission_source", "source"."referredFrom" AS "referredFrom", "source"."Gender.label" AS "Gender", "source"."AdmissionWeight" AS "AdmissionWeight", "source"."AdmissionWeightGroup" AS "AdmissionWeightGroup", "source"."BirthWeight" AS "BirthWeight", "source"."BirthWeightGroup" AS "BirthWeightGroup", "source"."Gestation" AS "Gestation", "source"."ModeOfEsttimating" AS "ModeOfEsttimating", "source"."AgeCategory" AS "AgeCategory", "source"."MotherHIVTest" AS "MotherHIVTest", "source"."HIVTestResult" AS "HIVTestResult", "source"."OnHAART" AS "OnHAART", "source"."LengthOfHAART" AS "LengthOfHAART", "source"."NVPgiven" AS "NVPgiven", "source"."TempGroup" AS "TempGroup", "source"."Temperature" AS "Temperature", "source"."GestationGroup" AS "GestationGroup", "source"."InOrOut" AS "InOrOut", "source"."FacilityReferredFrom" AS "FacilityReferredFrom", "source"."DischargeDateTime" AS "DischargeDateTime", "source"."NeonateOutcome" AS "NeonateOutcome", "source"."AdmissionMonthYear" AS "AdmissionMonthYear", "source"."AdmissionMonthYearSort" AS "AdmissionMonthYearSort", "source"."AntenatalSteroids" AS "AntenatalSteroids", "source"."Less28wks/1kgCount", "source"."PretermCount","source"."DeathCount" AS "DeathCount", "source"."DischargeCount" AS "DischargeCount", "source"."BirthWeightCount" AS "BirthWeightCount", "source"."AdmissionWeightCount" AS "AdmissionWeightCount", "source"."GestationCount" AS "GestationCount", "source"."OutsideFacilityCount" AS "OutsideFacilityCount", "source"."WithinFacilityCount" AS "WithinFacilityCount", "source"."AdmissionCount" AS "AdmissionCount", "source"."PrematureCount" As "PrematureCount", "source"."HypothermiaCount" AS "HypothermiaCount",
+SELECT "source"."uid" AS "uid", "source"."AdmissionDateTime" AS "AdmissionDateTime", "source"."Readmitted" AS "Readmitted", "source"."admission_source" AS "admission_source", "source"."referredFrom" AS "referredFrom", "source"."Gender" AS "Gender", "source"."AdmissionWeight" AS "AdmissionWeight", "source"."AdmissionWeightGroup" AS "AdmissionWeightGroup", "source"."BirthWeight" AS "BirthWeight", "source"."BirthWeightGroup" AS "BirthWeightGroup", "source"."Gestation" AS "Gestation", "source"."ModeOfEsttimating" AS "ModeOfEsttimating", "source"."AgeCategory" AS "AgeCategory", "source"."MotherHIVTest" AS "MotherHIVTest", "source"."HIVTestResult" AS "HIVTestResult", "source"."OnHAART" AS "OnHAART", "source"."LengthOfHAART" AS "LengthOfHAART", "source"."NVPgiven" AS "NVPgiven", "source"."TempGroup" AS "TempGroup", "source"."Temperature" AS "Temperature", "source"."GestationGroup" AS "GestationGroup", "source"."InOrOut" AS "InOrOut", "source"."FacilityReferredFrom" AS "FacilityReferredFrom", "source"."DischargeDateTime" AS "DischargeDateTime", "source"."NeonateOutcome" AS "NeonateOutcome", "source"."AdmissionMonthYear" AS "AdmissionMonthYear", "source"."AdmissionMonthYearSort" AS "AdmissionMonthYearSort", "source"."AntenatalSteroids" AS "AntenatalSteroids", "source"."Less28wks/1kgCount", "source"."PretermCount","source"."DeathCount" AS "DeathCount", "source"."DischargeCount" AS "DischargeCount", "source"."BirthWeightCount" AS "BirthWeightCount", "source"."AdmissionWeightCount" AS "AdmissionWeightCount", "source"."GestationCount" AS "GestationCount", "source"."OutsideFacilityCount" AS "OutsideFacilityCount", "source"."WithinFacilityCount" AS "WithinFacilityCount", "source"."AdmissionCount" AS "AdmissionCount", "source"."PrematureCount" As "PrematureCount", "source"."HypothermiaCount" AS "HypothermiaCount",
 "source"."TempThermiaSort" AS "TempThermiaSort", "source"."TempThermia" AS "TempThermia", "source"."BirthWeightSort" AS "BirthWeightSort", "source"."AdmissionWeightSort" As "AdmissionWeightSort", "source"."GestSort" AS "GestSort", "source"."AgeCatSort" AS "AgeCatSort",
 "source"."AbscondedCount" AS "AbscondedCount", "source"."TransferredOutCount" AS "TransferredOutCount", "source"."DischargeOnRequestCount" AS "DischargeOnRequestCount", "source"."Death<24hrsCount" As "DeathLessThan24hrs", "source"."Death>24hrsCount" AS "DeathMoreThan24hrs", "source"."NNDCount" AS "NNDCount"
 FROM (SELECT derived.joined_admissions_discharges."uid" AS "uid", 
@@ -8,7 +8,7 @@ FROM (SELECT derived.joined_admissions_discharges."uid" AS "uid",
 		derived.joined_admissions_discharges."Readmission.label" AS "Readmitted", 
 		derived.joined_admissions_discharges."AdmittedFrom.label" AS "admission_source",
         derived.joined_admissions_discharges."ReferredFrom2.label" AS "referredFrom", 
-        derived.joined_admissions_discharges."Gender", 
+        derived.joined_admissions_discharges."Gender.label" AS "Gender", 
         derived.joined_admissions_discharges."AW.value" AS "AdmissionWeight", 
         derived.joined_admissions_discharges."AWGroup.value" AS "AdmissionWeightGroup", 
         derived.joined_admissions_discharges."BW.value" AS "BirthWeight", 
@@ -88,14 +88,4 @@ FROM (SELECT derived.joined_admissions_discharges."uid" AS "uid",
         END AS "AgeCatSort"
 FROM derived.joined_admissions_discharges
 ORDER BY derived.joined_admissions_discharges."uid" ASC
-) "source"
-
-
-
-
-
-
-
-
-
-
+) AS "source"
