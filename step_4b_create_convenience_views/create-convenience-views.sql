@@ -84,4 +84,4 @@ CREATE TABLE derived.summary_joined_admissions_discharges AS
             WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Infant (> 3 days old)' THEN 5
         END AS "AgeCatSort"
 FROM derived.joined_admissions_discharges
-ORDER BY derived.joined_admissions_discharges."uid" ASC
+ORDER BY derived.joined_admissions_discharges."uid" ASC;
