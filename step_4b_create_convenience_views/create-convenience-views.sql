@@ -4,7 +4,7 @@ CREATE TABLE derived.summary_joined_admissions_discharges AS
 		derived.joined_admissions_discharges."DateTimeAdmission.value_admission" AS "AdmissionDateTime",
 		derived.joined_admissions_discharges."Readmission.label_admission" AS "Readmitted", 
 		derived.joined_admissions_discharges."AdmittedFrom.label" AS "admission_source",
-        derived.joined_admissions_discharges."ReferredFrom2.label" AS "referredFrom", 
+        derived.joined_admissions_discharges."ReferredFrom2.label_admission" AS "referredFrom", 
         derived.joined_admissions_discharges."Gender.label_admission" AS "Gender", 
         derived.joined_admissions_discharges."AW.value" AS "AdmissionWeight", 
         derived.joined_admissions_discharges."AWGroup.value" AS "AdmissionWeightGroup", 
