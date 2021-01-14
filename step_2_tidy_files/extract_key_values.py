@@ -11,7 +11,10 @@ def get_key_values(data_raw):
         new_entries = {}
         # add uid and ingested_at first
         new_entries['uid'] = index
-        new_entries['ingested_at'] = rows['ingested_at']
+        if 'ingested_at_admission' in rows:
+            new_entries['ingested_at'] = rows['ingested_at_admission']
+        if 'ingested_at_discharge' in rows:
+            new_entries['ingested_at'] = rows['ingested_at_discharge']
         # iterate through key, value and add to dict
         for c in rows['entries']:
             # call resturcture function to manage MCL, zero & single values
