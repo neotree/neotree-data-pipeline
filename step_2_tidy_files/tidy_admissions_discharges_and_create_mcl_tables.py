@@ -63,10 +63,10 @@ def tidy_tables():
 
         # admissions tables
         # remove timezone in string to fix issues caused by converting to UTC
-        adm_df['DateTimeAdmission.value_admission'] = adm_df['DateTimeAdmission.value_admission'].map(
+        adm_df['DateTimeAdmission.value'] = adm_df['DateTimeAdmission.value'].map(
             lambda x: str(x)[:-4])
-        adm_df['DateTimeAdmission.value_admission'] = pd.to_datetime(
-            adm_df['DateTimeAdmission.value_admission'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        adm_df['DateTimeAdmission.value'] = pd.to_datetime(
+            adm_df['DateTimeAdmission.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
         adm_df['EndScriptDatetime.value_admission'] = adm_df['EndScriptDatetime.value_admission'].map(
             lambda x: str(x)[:-4])
         adm_df['EndScriptDatetime.value_admission'] = pd.to_datetime(
