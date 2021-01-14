@@ -7,7 +7,6 @@ from common_files.sql_functions import create_table
 def explode_column(df, mcl):
     for c in mcl:
         # loop to explode all mcl columns in list
-        print("======",c)
         column = (c + '.label')
         mcl_column = df[[column]]
         mcl_column_exp = mcl_column.explode(column)
