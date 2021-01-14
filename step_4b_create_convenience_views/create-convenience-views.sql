@@ -29,7 +29,7 @@ CREATE TABLE derived.summary_joined_admissions_discharges AS
         CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value_admission") :: DATE, 'Mon-YYYY') AS text) AS "AdmissionMonthYear", 
         CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value_admission") :: DATE, 'YYYYmm') AS decimal) AS "AdmissionMonthYearSort",
         derived.joined_admissions_discharges."ANSteroids.label_admission" As "AntenatalSteroids",
-        CASE WHEN derived.joined_admissions_discharges."Gestation.value" < 28 AND derived.joined_admissions_discharges."BW.value" < 1000 then 1 End AS "Less28wks/1kgCount",
+        CASE WHEN derived.joined_admissions_discharges."Gestation.value_admission" < 28 AND derived.joined_admissions_discharges."BW.value" < 1000 then 1 End AS "Less28wks/1kgCount",
         CASE WHEN derived.joined_admissions_discharges."GestGroup.value" <> 'Term' THEN 1 END AS "PretermCount",
       	CASE 
          WHEN derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%Death%%' THEN 1 
