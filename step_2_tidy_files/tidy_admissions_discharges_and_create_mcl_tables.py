@@ -67,14 +67,14 @@ def tidy_tables():
             lambda x: str(x)[:-4])
         adm_df['DateTimeAdmission.value'] = pd.to_datetime(
             adm_df['DateTimeAdmission.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
-        adm_df['EndScriptDatetime.value_admission'] = adm_df['EndScriptDatetime.value_admission'].map(
+        adm_df['EndScriptDatetime.value'] = adm_df['EndScriptDatetime.value'].map(
             lambda x: str(x)[:-4])
-        adm_df['EndScriptDatetime.value_admission'] = pd.to_datetime(
-            adm_df['EndScriptDatetime.value_admission'], format='%Y-%m-%dT%H:%M:%S', utc=True)
-        adm_df['DateHIVtest.value_admission'] = adm_df['DateHIVtest.value_admission'].map(lambda x: str(x)[
+        adm_df['EndScriptDatetime.value'] = pd.to_datetime(
+            adm_df['EndScriptDatetime.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        adm_df['DateHIVtest.value'] = adm_df['DateHIVtest.value'].map(lambda x: str(x)[
                                                                       :-4])
-        adm_df['DateHIVtest.value_admission'] = pd.to_datetime(
-            adm_df['DateHIVtest.value_admission'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        adm_df['DateHIVtest.value'] = pd.to_datetime(
+            adm_df['DateHIVtest.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
         adm_df['ANVDRLDate.value'] = adm_df['ANVDRLDate.value'].map(lambda x: str(x)[
                                                                     :-4])
         adm_df['ANVDRLDate.value'] = pd.to_datetime(
@@ -106,10 +106,10 @@ def tidy_tables():
             lambda x: str(x)[:-4])
         dis_df['DateTimeDischarge.value'] = pd.to_datetime(
             dis_df['DateTimeDischarge.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
-        dis_df['EndScriptDatetime.value_discharge'] = dis_df['EndScriptDatetime.value_discharge'].map(
+        dis_df['EndScriptDatetime.value'] = dis_df['EndScriptDatetime.value'].map(
             lambda x: str(x)[:-4])
         dis_df['EndScriptDatetime.value_discharge'] = pd.to_datetime(
-            dis_df['EndScriptDatetime.value_discharge'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+            dis_df['EndScriptDatetime.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
         dis_df['DateWeaned.value'] = dis_df['DateWeaned.value'].map(lambda x: str(x)[
                                                                     :-4])
         dis_df['DateWeaned.value'] = pd.to_datetime(
