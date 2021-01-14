@@ -1,7 +1,10 @@
 DROP TABLE IF EXISTS derived.summary_joined_admissions_discharges;
 CREATE TABLE derived.summary_joined_admissions_discharges AS
- SELECT derived.joined_admissions_discharges."uid" AS "uid", 
-		derived.joined_admissions_discharges."DateTimeAdmission.value" AS "AdmissionDateTime",
+ SELECT derived.joined_admissions_discharges."uid" AS "uid",
+  CASE WHEN EXISTS (SELECT "DateTimeAdmission.value_admission" 
+          FROM information_schema.columns 
+         WHERE table_name="derived.joined_admissions_discharges" and column_name="DateTimeAdmission.value_admission") THEN
+		derived.joined_admissions_discharges."DateTimeAdmission.value_admission" END AS "AdmissionDateTime",
 		derived.joined_admissions_discharges."Readmission.label" AS "Readmitted", 
 		derived.joined_admissions_discharges."AdmittedFrom.label" AS "admission_source",
         derived.joined_admissions_discharges."ReferredFrom2.label" AS "referredFrom", 

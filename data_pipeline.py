@@ -19,6 +19,7 @@ def main():
 #The execution environment to be used as set in the parameters
     mode = params['env']
     cron_log = open("/var/log/data_pipeline_cron.log","a+")
+    #cron_log = open("C:\/Users\/morris\/Documents\/data_pipeline_cron.log","a+")
 #Put Separaters to easily distinguish a new execution
     logging.info("===================================================================================")
     logging.info("Ready To Run Data Pipeline in {0} mode".format(mode))
