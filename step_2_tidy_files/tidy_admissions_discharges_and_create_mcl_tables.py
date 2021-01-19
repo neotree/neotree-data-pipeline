@@ -135,7 +135,6 @@ def tidy_tables():
         dis_tbl_n = 'discharges'
 
     
-        logging.info("STEP-2 DISC:{0}".format(dis_df))
 
         create_table(adm_df, adm_tbl_n)
         create_table(dis_df, dis_tbl_n)
