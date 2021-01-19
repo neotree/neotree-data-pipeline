@@ -134,7 +134,7 @@ def tidy_tables():
         adm_tbl_n = 'admissions'
         dis_tbl_n = 'discharges'
 
-        logging.info("STEP-2 ADM:",adm_df)
+    
         logging.info("STEP-2 DISC:",dis_df)
 
         create_table(adm_df, adm_tbl_n)

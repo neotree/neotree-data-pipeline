@@ -5,7 +5,7 @@ from common_files.sql_functions import create_table
 
 
 def explode_column(df, mcl):
-    print("MCL--",)
+    
     for c in mcl:
         # loop to explode all mcl columns in list
         column = (c + '.label')
