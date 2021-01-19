@@ -108,7 +108,7 @@ def tidy_tables():
             dis_df['DateTimeDischarge.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
         dis_df['EndScriptDatetime.value'] = dis_df['EndScriptDatetime.value'].map(
             lambda x: str(x)[:-4])
-        dis_df['EndScriptDatetime.value_discharge'] = pd.to_datetime(
+        dis_df['EndScriptDatetime.value'] = pd.to_datetime(
             dis_df['EndScriptDatetime.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
         dis_df['DateWeaned.value'] = dis_df['DateWeaned.value'].map(lambda x: str(x)[
                                                                     :-4])
@@ -133,6 +133,9 @@ def tidy_tables():
     try:
         adm_tbl_n = 'admissions'
         dis_tbl_n = 'discharges'
+
+        logging.info("STEP-2 ADM:",adm_df)
+        logging.info("STEP-2 DISC:",dis_df)
 
         create_table(adm_df, adm_tbl_n)
         create_table(dis_df, dis_tbl_n)

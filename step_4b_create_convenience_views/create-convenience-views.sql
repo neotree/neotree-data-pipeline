@@ -1,35 +1,35 @@
 DROP TABLE IF EXISTS derived.summary_joined_admissions_discharges;
 CREATE TABLE derived.summary_joined_admissions_discharges AS
  SELECT derived.joined_admissions_discharges."uid" AS "uid", 
-		derived.joined_admissions_discharges."DateTimeAdmission.value_admission" AS "AdmissionDateTime",
-		derived.joined_admissions_discharges."Readmission.label_admission" AS "Readmitted", 
+		derived.joined_admissions_discharges."DateTimeAdmission.value" AS "AdmissionDateTime",
+		derived.joined_admissions_discharges."Readmission.label" AS "Readmitted", 
 		derived.joined_admissions_discharges."AdmittedFrom.label" AS "admission_source",
-        derived.joined_admissions_discharges."ReferredFrom2.label_admission" AS "referredFrom", 
-        derived.joined_admissions_discharges."Gender.label_admission" AS "Gender", 
+        derived.joined_admissions_discharges."ReferredFrom2.label" AS "referredFrom", 
+        derived.joined_admissions_discharges."Gender.label" AS "Gender", 
         derived.joined_admissions_discharges."AW.value" AS "AdmissionWeight", 
         derived.joined_admissions_discharges."AWGroup.value" AS "AdmissionWeightGroup", 
         derived.joined_admissions_discharges."BW.value" AS "BirthWeight", 
         derived.joined_admissions_discharges."BWGroup.value" AS "BirthWeightGroup",
         derived.joined_admissions_discharges."Genitalia.value" AS "Gestation", 
-        derived.joined_admissions_discharges."MethodEstGest.label_admission" AS "ModeOfEsttimating", 
-        derived.joined_admissions_discharges."AgeCat.label_admission" AS "AgeCategory",
-        derived.joined_admissions_discharges."MatHIVtest.label_admission" AS "MotherHIVTest", 
-        derived.joined_admissions_discharges."HIVtestResult.label_admission" AS "HIVTestResult", 
-        derived.joined_admissions_discharges."HAART.label_admission" AS "OnHAART",
-        derived.joined_admissions_discharges."LengthHAART.label_admission" AS "LengthOfHAART",
+        derived.joined_admissions_discharges."MethodEstGest.label" AS "ModeOfEsttimating", 
+        derived.joined_admissions_discharges."AgeCat.label" AS "AgeCategory",
+        derived.joined_admissions_discharges."MatHIVtest.label" AS "MotherHIVTest", 
+        derived.joined_admissions_discharges."HIVtestResult.label" AS "HIVTestResult", 
+        derived.joined_admissions_discharges."HAART.label" AS "OnHAART",
+        derived.joined_admissions_discharges."LengthHAART.label" AS "LengthOfHAART",
         derived.joined_admissions_discharges."TempThermia.value" AS "TempThermia",
         derived.joined_admissions_discharges."NVPgiven.label" AS "NVPgiven", 
         derived.joined_admissions_discharges."TempGroup.value" AS "TempGroup",
         derived.joined_admissions_discharges."Temperature.value" AS "Temperature", 
         derived.joined_admissions_discharges."GestGroup.value" As "GestationGroup",
-        derived.joined_admissions_discharges."InOrOut.label_admission" AS "InOrOut",
-        derived.joined_admissions_discharges."ReferredFrom.label_admission" AS "FacilityReferredFrom",
+        derived.joined_admissions_discharges."InOrOut.label" AS "InOrOut",
+        derived.joined_admissions_discharges."ReferredFrom.label" AS "FacilityReferredFrom",
         derived.joined_admissions_discharges."DateTimeDischarge.value" AS "DischargeDateTime",
       	derived.joined_admissions_discharges."NeoTreeOutcome.label" AS "NeonateOutcome", 
-        CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value_admission") :: DATE, 'Mon-YYYY') AS text) AS "AdmissionMonthYear", 
-        CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value_admission") :: DATE, 'YYYYmm') AS decimal) AS "AdmissionMonthYearSort",
-        derived.joined_admissions_discharges."ANSteroids.label_admission" As "AntenatalSteroids",
-        CASE WHEN derived.joined_admissions_discharges."Gestation.value_admission" < 28 AND derived.joined_admissions_discharges."BW.value" < 1000 then 1 End AS "Less28wks/1kgCount",
+        CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value") :: DATE, 'Mon-YYYY') AS text) AS "AdmissionMonthYear", 
+        CAST(TO_CHAR(DATE(derived.joined_admissions_discharges."DateTimeAdmission.value") :: DATE, 'YYYYmm') AS decimal) AS "AdmissionMonthYearSort",
+        derived.joined_admissions_discharges."ANSteroids.label" As "AntenatalSteroids",
+        CASE WHEN derived.joined_admissions_discharges."Gestation.value" < 28 AND derived.joined_admissions_discharges."BW.value" < 1000 then 1 End AS "Less28wks/1kgCount",
         CASE WHEN derived.joined_admissions_discharges."GestGroup.value" <> 'Term' THEN 1 END AS "PretermCount",
       	CASE 
          WHEN derived.joined_admissions_discharges."NeoTreeOutcome.label" like '%%Death%%' THEN 1 
@@ -45,9 +45,9 @@ CREATE TABLE derived.summary_joined_admissions_discharges AS
        	CASE WHEN derived.joined_admissions_discharges."BWGroup.value" IS NOT NULL THEN 1 end AS "BirthWeightCount",
        	CASE WHEN derived.joined_admissions_discharges."AWGroup.value" IS NOT NULL THEN 1 end AS "AdmissionWeightCount",
        	CASE WHEN derived.joined_admissions_discharges."GestGroup.value" IS NOT NULL THEN 1 end AS "GestationCount",
-       	CASE WHEN derived.joined_admissions_discharges."InOrOut.label_admission" like '%%Outside%%' THEN 1 end AS "OutsideFacilityCount",
-		    CASE WHEN derived.joined_admissions_discharges."InOrOut.label_admission" like '%%Within%%' THEN 1  end AS "WithinFacilityCount",
-	    	CASE WHEN derived.joined_admissions_discharges."DateTimeAdmission.value_admission" IS NOT NULL Then 1  end AS "AdmissionCount",
+       	CASE WHEN derived.joined_admissions_discharges."InOrOut.label" like '%%Outside%%' THEN 1 end AS "OutsideFacilityCount",
+		    CASE WHEN derived.joined_admissions_discharges."InOrOut.label" like '%%Within%%' THEN 1  end AS "WithinFacilityCount",
+	    	CASE WHEN derived.joined_admissions_discharges."DateTimeAdmission.value" IS NOT NULL Then 1  end AS "AdmissionCount",
 	    	CASE WHEN derived.joined_admissions_discharges."BW.value" < 2500 THEN 1 end AS "PrematureCount",
 		    CASE WHEN derived.joined_admissions_discharges."TempThermia.value" = 'Hypothermia' Then 1 end AS "HypothermiaCount",
 		    CASE WHEN derived.joined_admissions_discharges."TempThermia.value" = 'Hypothermia' Then 1
@@ -77,11 +77,11 @@ CREATE TABLE derived.summary_joined_admissions_discharges AS
             WHEN derived.joined_admissions_discharges."GestGroup.value" = 'Term' THEN 5
         END AS "GestSort",
         CASE
-            WHEN derived.joined_admissions_discharges."AgeCat.label_admission" = 'Fresh Newborn (< 2 hours old)' THEN 1
-            WHEN derived.joined_admissions_discharges."AgeCat.label_admission" = 'Newborn (2 - 23 hrs old)' THEN 2
-            WHEN derived.joined_admissions_discharges."AgeCat.label_admission" = 'Newborn (1 day - 1 day 23 hrs old)' THEN 3
-            WHEN derived.joined_admissions_discharges."AgeCat.label_admission" = 'Infant (2 days - 2 days 23 hrs old)' THEN 4
-            WHEN derived.joined_admissions_discharges."AgeCat.label_admission" = 'Infant (> 3 days old)' THEN 5
+            WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Fresh Newborn (< 2 hours old)' THEN 1
+            WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Newborn (2 - 23 hrs old)' THEN 2
+            WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Newborn (1 day - 1 day 23 hrs old)' THEN 3
+            WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Infant (2 days - 2 days 23 hrs old)' THEN 4
+            WHEN derived.joined_admissions_discharges."AgeCat.label" = 'Infant (> 3 days old)' THEN 5
         END AS "AgeCatSort"
 FROM derived.joined_admissions_discharges
 ORDER BY derived.joined_admissions_discharges."uid" ASC;
