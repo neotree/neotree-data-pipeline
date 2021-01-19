@@ -36,8 +36,6 @@ def join_table():
     logging.info("... Creating joined admissions and discharge table")
     try:
         # join admissions and discharges
-        logging.info('-ad-mf-', adm_df)
-        logging.info('-dis_df-', dis_df)
         jn_adm_dis = adm_df.merge(dis_df, how='left', left_index=True,
                                   right_index=True,suffixes=('','_discharge'))
         # Extend join table with derived columns based on power bi logic - DEL
