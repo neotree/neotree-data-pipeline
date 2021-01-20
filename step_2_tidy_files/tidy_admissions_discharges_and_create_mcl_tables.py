@@ -1,5 +1,5 @@
 # Import created modules (need to be stored in the same directory as notebook)
-from step_2_tidy_files.extract_key_values import get_key_values
+from step_2_tidy_files.extract_key_values import get_key_values_adm,get_key_values_disc
 from step_2_tidy_files.explode_mcl_columns import explode_column
 from step_2_tidy_files.create_derived_columns import create_columns
 from common_files.sql_functions import read_table
@@ -44,8 +44,8 @@ def tidy_tables():
     # Now let's fetch the list of properties recorded in that table
     logging.info("... Extracting keys")
     try:
-        adm_new_entries, adm_mcl = get_key_values(adm_raw)
-        dis_new_entries, dis_mcl = get_key_values(dis_raw)
+        adm_new_entries, adm_mcl = get_key_values_adm(adm_raw)
+        dis_new_entries, dis_mcl = get_key_values_disc(dis_raw)
     except Exception as e:
         logging.error("!!! An error occured extracting keys: ")
         raise e
