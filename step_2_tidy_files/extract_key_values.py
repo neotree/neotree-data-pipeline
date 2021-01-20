@@ -18,7 +18,7 @@ def get_key_values(data_raw):
         # iterate through key, value and add to dict
         for c in rows['entries']:
             # call resturcture function to manage MCL, zero & single values
-            k, v, mcl = jr.restructure_admissions(c, mcl)
+            k, v, mcl = jr.restructure(c, mcl)
             new_entries[k] = v
         # for each row add all the keys & values to a list
         data_new.append(new_entries)
