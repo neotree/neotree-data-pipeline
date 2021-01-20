@@ -1,9 +1,9 @@
 # Import created modules (need to be stored in the same directory as notebook)
-from step_2_tidy_files.extract_key_values import get_key_values_adm,get_key_values_disc
+from step_2_tidy_files.extract_key_values import get_key_values
 from step_2_tidy_files.explode_mcl_columns import explode_column
 from step_2_tidy_files.create_derived_columns import create_columns
-from common_files.sql_functions import read_table
-from common_files.sql_functions import create_table
+from common_files.sql_functions import read_table, read_table_disc
+from common_files.sql_functions import create_table,create_table_disc
 
 # Import libraries
 import pandas as pd
@@ -36,7 +36,7 @@ def tidy_tables():
         '''
 
         adm_raw = read_table(adm_query)
-        dis_raw = read_table(dis_query)
+        dis_raw = read_table_disc(dis_query)
     except Exception as e:
         logging.error("!!! An error occured fetching the data: ")
         raise e
@@ -44,8 +44,8 @@ def tidy_tables():
     # Now let's fetch the list of properties recorded in that table
     logging.info("... Extracting keys")
     try:
-        adm_new_entries, adm_mcl = get_key_values_adm(adm_raw)
-        dis_new_entries, dis_mcl = get_key_values_disc(dis_raw)
+        adm_new_entries, adm_mcl = get_key_values(adm_raw)
+        dis_new_entries, dis_mcl = get_key_values(dis_raw)
     except Exception as e:
         logging.error("!!! An error occured extracting keys: ")
         raise e
@@ -137,7 +137,7 @@ def tidy_tables():
     
 
         create_table(adm_df, adm_tbl_n)
-        create_table(dis_df, dis_tbl_n)
+        create_table_disc(dis_df, dis_tbl_n)
     except Exception as e:
         logging.error(
             "!!! An error occured writing admissions and discharge output back to the database: ")

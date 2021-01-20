@@ -43,7 +43,16 @@ def read_table(query):
     data_raw = pd.read_sql_query(query, con=engine, index_col="uid")
     return data_raw
 
+def read_table_disc(query):
+    # Read the deduplicated admissions/discharges tables
+    data_raw = pd.read_sql_query(query, con=engine, index_col="uid")
+    return data_raw
+
 
 def create_table(df, table_name):
+    # create tables in derived schema
+    df.to_sql(table_name, con=engine, schema='derived', if_exists='replace')
+
+def create_table_disc(df, table_name):
     # create tables in derived schema
     df.to_sql(table_name, con=engine, schema='derived', if_exists='replace')
