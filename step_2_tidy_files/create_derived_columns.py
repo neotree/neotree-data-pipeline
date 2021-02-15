@@ -18,6 +18,7 @@ def create_columns(table):
     # print(jn_adm_dis['AdmittedFrom.label'])
 
     # Create AdmissionSource = IF(ISBLANK(Admissions[AdmittedFrom]); "External Referral"; Admissions[AdmittedFrom])
+ 
     table['AdmittedFrom.value'].fillna("ER", inplace=True)
     table['AdmittedFrom.label'].fillna("External Referral", inplace=True)
 
@@ -76,22 +77,6 @@ def create_columns(table):
     table.loc[table['AW.value'] < 1500, 'AWGroup.value'] = "1000-1500g"
     table.loc[table['AW.value'] < 1000, 'AWGroup.value'] = "<1000g"
 
-    # Create AWOrder = RELATED(AWOrder[Order]) - see if this can be done in tool
-
-    # Create AgeCatOrder = RELATED(AgeCatGroup[Order]) - see if this can be done in tool
-
-    # Create TempGroup = if(Admissions[Temperature]<30.5; "<30.5";
-    # if(Admissions[Temperature]<31.5; "30.5-31.5";
-    # if(Admissions[Temperature]<32.5; "31.5-32.5";
-    # IF(Admissions[Temperature]<33.5; "32.5-33.5";
-    # IF(Admissions[Temperature]<34.5; "33.5-34.5";
-    # IF(Admissions[Temperature]<35.5; "34.5-35.5";
-    # IF(Admissions[Temperature]<36.5; "35.5-36.5";
-    # IF(Admissions[Temperature]<37.5; "36.5-37.5";
-    # IF(Admissions[Temperature]<38.5; "37.5-38.5";
-    # IF(Admissions[Temperature]<39.5; "38.5-39.5";
-    # IF(Admissions[Temperature]<40.5; "39.5-40.5";
-    # IF(Admissions[Temperature]<41.5; "40.5-41.5"; ">41.5"))))))))))))
 
     # order of statements matters
     table.loc[table['Temperature.value'] >= 41.5, 'TempGroup.value'] = ">41.5"

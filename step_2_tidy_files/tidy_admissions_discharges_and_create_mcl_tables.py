@@ -23,6 +23,7 @@ def tidy_tables():
                 select 
                     uid,
                     ingested_at,
+                    "data"->'appVersion' as "appVersion",
                     "data"->'entries' as "entries"
                 from scratch.deduplicated_admissions;
             '''
@@ -31,6 +32,7 @@ def tidy_tables():
             select 
                 uid,
                 ingested_at,
+                "data"->'appVersion' as "appVersion",
                 "data"->'entries' as "entries"
             from scratch.deduplicated_discharges;
         '''
@@ -71,14 +73,16 @@ def tidy_tables():
             lambda x: str(x)[:-4])
         adm_df['EndScriptDatetime.value'] = pd.to_datetime(
             adm_df['EndScriptDatetime.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+
         adm_df['DateHIVtest.value'] = adm_df['DateHIVtest.value'].map(lambda x: str(x)[
-                                                                      :-4])
+                                                                      :-4])                                                          
         adm_df['DateHIVtest.value'] = pd.to_datetime(
-            adm_df['DateHIVtest.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        adm_df['DateHIVtest.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        
         adm_df['ANVDRLDate.value'] = adm_df['ANVDRLDate.value'].map(lambda x: str(x)[
                                                                     :-4])
         adm_df['ANVDRLDate.value'] = pd.to_datetime(
-            adm_df['ANVDRLDate.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
+        adm_df['ANVDRLDate.value'], format='%Y-%m-%dT%H:%M:%S', utc=True)
 
         # Remove Space From BW.Value :: Issue Was Affecting Dev Database
         if 'BW .label' in adm_df.columns: 

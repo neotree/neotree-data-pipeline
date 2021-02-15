@@ -26,6 +26,20 @@ def restructure(c, mcl):
     else:
         k = c['key']
         v = c['values'][0]
-
     return k, v, mcl
 
+#Restructure New Formated Data
+def restructure_new_format(k,v,mcl):
+
+    #Check If Multi Value Column 
+    if len(v['values']['label']) > 1:
+        k = k
+        v = v['values']
+        mcl.append(k)
+
+    else :
+        k = k
+        #  Unpack The Values Object To Get Single Values
+        v = {'label':v['values']['label'][0],'value':v['values']['value'][0]}
+
+    return k, v, mcl
